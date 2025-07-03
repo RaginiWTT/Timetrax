@@ -67,8 +67,8 @@ public class Resource {
     @Column(name = "CreatedBy")
     private Integer createdBy;
 
-    @Column(name = "CreatedDateTime")
-    private LocalDateTime createdDateTime;
+//    @Column(name = "CreatedDateTime")
+//    private LocalDateTime createdDateTime;
 
 	@Override
 	public String toString() {
@@ -76,12 +76,12 @@ public class Resource {
 				+ firstName + ", lastName=" + lastName + ", phoneNumber=" + phoneNumber + ", addressLine1="
 				+ addressLine1 + ", addressLine2=" + addressLine2 + ", city=" + city + ", state=" + state + ", zipcode="
 				+ zipcode + ", country=" + country + ", role=" + role + ", active=" + active + ", createdBy="
-				+ createdBy + ", createdDateTime=" + createdDateTime + "]";
+				+ createdBy + "]";
 	}
 
 	public Resource( String emailId, String password, String firstName, String lastName,
 			String phoneNumber, String addressLine1, String addressLine2, String city, String state, String zipcode,
-			String country, int role, Boolean active, Integer createdBy, LocalDateTime createdDateTime) {
+			String country, int role, Boolean active, Integer createdBy) {
 		super();
 		
 		this.emailId = emailId;
@@ -98,7 +98,7 @@ public class Resource {
 		this.role = role;
 		this.active = active;
 		this.createdBy = createdBy;
-		this.createdDateTime = createdDateTime;
+		
 	}
 
 	
@@ -215,13 +215,7 @@ public class Resource {
 		this.createdBy = createdBy;
 	}
 
-	public LocalDateTime getCreatedDateTime() {
-		return createdDateTime;
-	}
 
-	public void setCreatedDateTime(LocalDateTime createdDateTime) {
-		this.createdDateTime = createdDateTime;
-	}
 
     // Getters and Setters (You can generate them using Lombok or manually)
 	
