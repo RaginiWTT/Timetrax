@@ -8,6 +8,7 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.wtt.TimetraxRestApis.entity.Customer;
@@ -44,4 +45,27 @@ public class ResourceController {
 		Resource updatedResource = resourceService.updateResource(resource);
 		return new ResponseEntity<>(updatedResource, HttpStatus.OK);
 	}
+	
+//	@PostMapping("/login/{emailId}/{password}")
+//	public ResponseEntity<Resource> loginResourceByEmailId_Password(@PathVariable("emailId") String emailId,
+//			@PathVariable("password") String password) {
+//		Resource resource = resourceService.loginResourceByEmailId_Password(emailId, password);
+//		if (resource != null) {
+//			return new ResponseEntity<>(resource, HttpStatus.OK);
+//		} else {
+//			return new ResponseEntity<>(HttpStatus.UNAUTHORIZED);
+//		}
+//	}
+	
+	@PostMapping("/login")
+	public ResponseEntity<Resource> loginResourceByEmailId_Password(@RequestParam("emailId") String emailId,
+			@RequestParam("password") String password) {
+		Resource resource = resourceService.loginResourceByEmailId_Password(emailId, password);
+		if (resource != null) {
+			return new ResponseEntity<>(resource, HttpStatus.OK);
+		} else {
+			return new ResponseEntity<>(HttpStatus.UNAUTHORIZED);
+		}
+	}
+	
 }

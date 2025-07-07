@@ -6,4 +6,6 @@ public interface ResourceService {
 	Resource createResource(Resource resource);
 
   Resource updateResource(Resource resource);
+  
+  Resource loginResourceByEmailId_Password(String emailId, String password);
 }

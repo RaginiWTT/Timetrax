@@ -48,4 +48,22 @@ public class ResourceServiceImpl implements ResourceService {
 		return null;
 
 	}
+
+	@Override
+	public Resource loginResourceByEmailId_Password(String emailId, String password) {
+		// TODO Auto-generated method stub
+		Resource resource = resourceRepo.findByEmailId(emailId);
+		if (resource != null) {
+			// Check if the password matches
+			if (resource.getPassword().equals(password)) {
+				// If the password matches, return the resource
+				return resource;
+			}
+			return null; // If the password does not match, return null;
+		}
+		// If no resource is found with the given emailId, return null
+		return null;
+	}
+	
+	
 }
