@@ -3,11 +3,14 @@ package com.wtt.TimetraxRestApis.controller;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
+import com.wtt.TimetraxRestApis.entity.Customer;
 import com.wtt.TimetraxRestApis.entity.Resource;
 import com.wtt.TimetraxRestApis.service.ResourceService;
 
@@ -32,5 +35,13 @@ public class ResourceController {
 		return  new ResponseEntity<>(savedResource,HttpStatus.CREATED);
 	}
 	
-
+   
+	
+	@PutMapping("/update/{id}")
+	public ResponseEntity<Resource> updateCustomer(@PathVariable("id") int id, @RequestBody Resource resource)
+	{
+		resource.setResourceId(id); // Set the ID of the Resource to be updated
+		Resource updatedResource = resourceService.updateResource(resource);
+		return new ResponseEntity<>(updatedResource, HttpStatus.OK);
+	}
 }

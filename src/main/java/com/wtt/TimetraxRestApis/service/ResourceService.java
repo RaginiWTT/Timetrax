@@ -5,4 +5,5 @@ import com.wtt.TimetraxRestApis.entity.Resource;
 public interface ResourceService {
 	Resource createResource(Resource resource);
 
+  Resource updateResource(Resource resource);
 }

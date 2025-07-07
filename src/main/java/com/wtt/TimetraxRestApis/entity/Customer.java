@@ -50,11 +50,34 @@ public class Customer {
     private Integer createdBy;
     
     
+    @Column(name = "ModifiedBy")
+    private Integer modifiedBy;
+    
+	public Customer() {
+		// Default constructor
+	}
 
     // Getters and Setters
 
    
-    public Customer( String customerName, String email, String phoneNumber, String faxNumber,
+    public Integer getCustomerId() {
+		return customerId;
+	}
+
+	public void setCustomerId(Integer customerId) {
+		this.customerId = customerId;
+	}
+	
+
+	public Integer getModifiedBy() {
+		return modifiedBy;
+	}
+
+	public void setModifiedBy(Integer modifiedBy) {
+		this.modifiedBy = modifiedBy;
+	}
+
+	public Customer( String customerName, String email, String phoneNumber, String faxNumber,
 			String addressLine1, String addressLine2, String city, String state, String zipcode, String country,
 			Boolean active, Integer createdBy) {
 		super();

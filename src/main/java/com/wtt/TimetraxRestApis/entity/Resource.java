@@ -66,9 +66,18 @@ public class Resource {
 
     @Column(name = "CreatedBy")
     private Integer createdBy;
+    
+    @Column(name = "ModifiedBy")
+    private Integer modifiedBy;
 
 //    @Column(name = "CreatedDateTime")
 //    private LocalDateTime createdDateTime;
+    
+	public Resource() {
+		// Default constructor
+	}
+
+
 
 	@Override
 	public String toString() {
@@ -213,6 +222,22 @@ public class Resource {
 
 	public void setCreatedBy(Integer createdBy) {
 		this.createdBy = createdBy;
+	}
+
+	public Integer getResourceId() {
+		return resourceId;
+	}
+
+	public void setResourceId(Integer resourceId) {
+		this.resourceId = resourceId;
+	}
+
+	public Integer getModifiedBy() {
+		return modifiedBy;
+	}
+
+	public void setModifiedBy(Integer modifiedBy) {
+		this.modifiedBy = modifiedBy;
 	}
 
 
