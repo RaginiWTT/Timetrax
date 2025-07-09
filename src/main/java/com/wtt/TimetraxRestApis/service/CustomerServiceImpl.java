@@ -46,6 +46,16 @@ public class CustomerServiceImpl implements CustomerService {
 	          }
 		return null;
 	}
+
+	@Override
+	public Customer getCustomerById(Integer customerId) {
+		// TODO Auto-generated method stub
+		Customer customer = customerRepo.findById(customerId).get();
+		if (customer != null) {
+			return customer;
+		}
+		return null;
+	}
 	
 	
 

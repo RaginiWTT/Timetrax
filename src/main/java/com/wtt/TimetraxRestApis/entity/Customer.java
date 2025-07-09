@@ -1,5 +1,8 @@
 package com.wtt.TimetraxRestApis.entity;
 
+import java.util.ArrayList;
+import java.util.List;
+
 import jakarta.persistence.*;
 
 @Entity
@@ -52,6 +55,9 @@ public class Customer {
     
     @Column(name = "ModifiedBy")
     private Integer modifiedBy;
+    
+    @OneToMany(mappedBy = "customer", cascade = CascadeType.ALL, orphanRemoval = true)
+    private List<Project> projects = new ArrayList<>();
     
 	public Customer() {
 		// Default constructor

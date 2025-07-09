@@ -7,4 +7,6 @@ public interface CustomerService {
 	
 	public Customer updateCustomer(Customer customer);
 
+	public Customer getCustomerById(Integer customerId);
+
 }
