@@ -11,6 +11,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
+import com.wtt.TimetraxRestApis.dto.ResourceDTO;
 import com.wtt.TimetraxRestApis.entity.Customer;
 import com.wtt.TimetraxRestApis.entity.Resource;
 import com.wtt.TimetraxRestApis.service.ResourceService;
@@ -30,9 +31,9 @@ public class ResourceController {
 	
 	//handler method for creating a resource 
 	@PostMapping("/add")
-	public ResponseEntity<Resource> createResource(@RequestBody Resource resource) {
-		System.out.println("Creating resource: " + resource);
-		Resource savedResource = resourceService.createResource(resource);
+	public ResponseEntity<ResourceDTO> createResource(@RequestBody ResourceDTO resourceDTO) {
+		System.out.println("Creating resource: " + resourceDTO);
+		ResourceDTO savedResource = resourceService.createResource(resourceDTO);
 		return  new ResponseEntity<>(savedResource,HttpStatus.CREATED);
 	}
 	

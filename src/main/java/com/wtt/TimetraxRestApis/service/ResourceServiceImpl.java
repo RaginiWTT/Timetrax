@@ -1,10 +1,13 @@
 package com.wtt.TimetraxRestApis.service;
 
+import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import com.wtt.TimetraxRestApis.dto.ResourceDTO;
 import com.wtt.TimetraxRestApis.entity.Customer;
 import com.wtt.TimetraxRestApis.entity.Resource;
+import com.wtt.TimetraxRestApis.mapper.ResourceMapper;
 import com.wtt.TimetraxRestApis.repository.ResourceRepo;
 
 import lombok.AllArgsConstructor;
@@ -17,10 +20,41 @@ public class ResourceServiceImpl implements ResourceService {
 	@Autowired
 	private ResourceRepo resourceRepo;
 
+	@Autowired
+	private ModelMapper modelMapper;
+
 	@Override
-	public Resource createResource(Resource resource) {
-		// TODO Auto-generated method stub
-		return resourceRepo.save(resource);
+	public ResourceDTO createResource(ResourceDTO resourceDTO) {
+		// Convert ResourceDTO to Resource entity
+
+		Resource resource = ResourceMapper.mapToResource(resourceDTO);
+		//Resource resource = modelMapper.map(resourceDTO, Resource.class);
+
+		Resource savedResource = resourceRepo.save(resource);
+
+		if (savedResource != null) {
+			// Convert saved Resource entity back to ResourceDTO
+			ResourceDTO savedResourceDTO = ResourceMapper.mapToResourceDTO(savedResource);
+			//ResourceDTO savedResourceDTO = modelMapper.map(savedResource, ResourceDTO.class);
+
+//		savedResourceDTO.setEmailId(savedResource.getEmailId());
+//		savedResourceDTO.setFirstName(savedResource.getFirstName());
+//		savedResourceDTO.setLastName(savedResource.getLastName());
+//		savedResourceDTO.setPhoneNumber(savedResource.getPhoneNumber());
+//		savedResourceDTO.setAddressLine1(savedResource.getAddressLine1());
+//		savedResourceDTO.setAddressLine2(savedResource.getAddressLine2());
+//		savedResourceDTO.setCity(savedResource.getCity());
+//		savedResourceDTO.setState(savedResource.getState());
+//		savedResourceDTO.setZipcode(savedResource.getZipcode());
+//		savedResourceDTO.setCountry(savedResource.getCountry());
+//		savedResourceDTO.setRole(savedResource.getRole());
+//		savedResourceDTO.setActive(savedResource.getActive());
+//		savedResourceDTO.setCreatedBy(savedResource.getCreatedBy());
+
+			return savedResourceDTO;
+		}
+
+		return null;
 	}
 
 	@Override
@@ -64,6 +98,5 @@ public class ResourceServiceImpl implements ResourceService {
 		// If no resource is found with the given emailId, return null
 		return null;
 	}
-	
-	
+
 }
