@@ -6,7 +6,7 @@ import com.wtt.TimetraxRestApis.entity.Resource;
 public interface ResourceService {
 	ResourceDTO createResource(ResourceDTO resourceDTO);
 
-  Resource updateResource(Resource resource);
+  ResourceDTO updateResource(ResourceDTO resourceDTO,int resourceId);
   
-  Resource loginResourceByEmailId_Password(String emailId, String password);
+  ResourceDTO loginResourceByEmailId_Password(String emailId, String password);
 }

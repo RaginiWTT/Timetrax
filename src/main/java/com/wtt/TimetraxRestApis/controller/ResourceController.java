@@ -40,11 +40,11 @@ public class ResourceController {
    
 	
 	@PutMapping("/update/{id}")
-	public ResponseEntity<Resource> updateCustomer(@PathVariable("id") int id, @RequestBody Resource resource)
+	public ResponseEntity<ResourceDTO> updateCustomer(@PathVariable("id") int id, @RequestBody ResourceDTO resourceDTO)
 	{
-		resource.setResourceId(id); // Set the ID of the Resource to be updated
-		Resource updatedResource = resourceService.updateResource(resource);
-		return new ResponseEntity<>(updatedResource, HttpStatus.OK);
+		//resourceDTO.setResourceId(id); // Set the ID of the Resource to be updated
+		ResourceDTO updatedResourceDTO = resourceService.updateResource(resourceDTO,id);
+		return new ResponseEntity<>(updatedResourceDTO, HttpStatus.OK);
 	}
 	
 //	@PostMapping("/login/{emailId}/{password}")
@@ -59,11 +59,11 @@ public class ResourceController {
 //	}
 	
 	@PostMapping("/login")
-	public ResponseEntity<Resource> loginResourceByEmailId_Password(@RequestParam("emailId") String emailId,
+	public ResponseEntity<ResourceDTO> loginResourceByEmailId_Password(@RequestParam("emailId") String emailId,
 			@RequestParam("password") String password) {
-		Resource resource = resourceService.loginResourceByEmailId_Password(emailId, password);
-		if (resource != null) {
-			return new ResponseEntity<>(resource, HttpStatus.OK);
+		ResourceDTO resourceDTO = resourceService.loginResourceByEmailId_Password(emailId, password);
+		if (resourceDTO != null) {
+			return new ResponseEntity<>(resourceDTO, HttpStatus.OK);
 		} else {
 			return new ResponseEntity<>(HttpStatus.UNAUTHORIZED);
 		}
