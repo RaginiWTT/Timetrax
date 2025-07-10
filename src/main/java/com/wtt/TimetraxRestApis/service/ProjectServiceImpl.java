@@ -1,8 +1,10 @@
 package com.wtt.TimetraxRestApis.service;
 
+import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import com.wtt.TimetraxRestApis.dto.ProjectDTO;
 import com.wtt.TimetraxRestApis.entity.Customer;
 import com.wtt.TimetraxRestApis.entity.Project;
 import com.wtt.TimetraxRestApis.repository.ProjectRepo;
@@ -15,6 +17,9 @@ public class ProjectServiceImpl implements ProjectService {
 	private ProjectRepo projectRepo;
 	@Autowired
 	private CustomerService customerService;
+	
+	@Autowired
+	private ModelMapper modelMapper;
 	// Constructor injection can also be used instead of field injection
 
 //	 public ProjectServiceImpl(ProjectRepo projectRepo, CustomerService
@@ -24,20 +29,27 @@ public class ProjectServiceImpl implements ProjectService {
 //	 }
 
 	@Override
-	public Project createProject(Project project, Integer customerId) {
+	public ProjectDTO createProject(ProjectDTO projectDTO, Integer customerId) {
 		// Logic to create a project
 		// For example, you might want to fetch the customer by ID and set it in the
 		// project
+		
+		Project project = modelMapper.map(projectDTO, Project.class);
+		
 		Customer customer = customerService.getCustomerById(customerId);
 		project.setCustomer(customer);
 
 		Project createdProject = projectRepo.save(project);
-		return createdProject; // Placeholder for actual implementation
+		
+		ProjectDTO createdProjectDTO = modelMapper.map(createdProject, ProjectDTO.class);
+		createdProjectDTO.setCustomerId(createdProject.getCustomer().getCustomerId()); // Set the customer ID in the DTO if needed
+		return createdProjectDTO; // Placeholder for actual implementation
 	}
 
 	@Override
-	public Project updateProject(Project project, Integer projectId,int customerId) {
+	public ProjectDTO updateProject(ProjectDTO project, Integer projectId,int customerId) {
 		// TODO Auto-generated method stub
+		//Project project = modelMapper.map(projectDTO, Project.class);
 		Project existingProject = projectRepo.findById(projectId).get();
 		if (existingProject != null) {
 
@@ -56,7 +68,10 @@ public class ProjectServiceImpl implements ProjectService {
 				
 				Project updaProject = projectRepo.save(existingProject);
 				
-				return updaProject; // Return the updated project
+				ProjectDTO updaProjectDto = modelMapper.map(updaProject, ProjectDTO.class);
+				updaProjectDto.setCustomerId(updaProject.getCustomer().getCustomerId()); // Set the customer ID in the DTO if needed
+				
+				return updaProjectDto; // Return the updated project
 
 			}
 		}

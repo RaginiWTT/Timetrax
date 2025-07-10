@@ -10,6 +10,7 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
+import com.wtt.TimetraxRestApis.dto.CustomerDTO;
 import com.wtt.TimetraxRestApis.entity.Customer;
 import com.wtt.TimetraxRestApis.service.CustomerService;
 
@@ -30,18 +31,18 @@ public class CutomerController {
 	}
 
 	@PostMapping("/add")
-	 public ResponseEntity<Customer> createCustomer(@RequestBody Customer
-	 customer) {
-	  Customer createdCustomer=	customerService.createCustomer(customer);
+	 public ResponseEntity<CustomerDTO> createCustomer(@RequestBody CustomerDTO
+	 customerDTO) {
+		CustomerDTO createdCustomer=	customerService.createCustomer(customerDTO);
 	 return new ResponseEntity<>(createdCustomer, HttpStatus.CREATED);
 	 }
 	
 	@PutMapping("/update/{id}")
-	public ResponseEntity<Customer> updateCustomer(@PathVariable("id") int id, @RequestBody Customer customer)
+	public ResponseEntity<CustomerDTO> updateCustomer(@PathVariable("id") int id, @RequestBody CustomerDTO customerDTO)
 	{
-		customer.setCustomerId(id); // Set the ID of the customer to be updated
-		Customer updatedCustomer = customerService.updateCustomer(customer);
-		return new ResponseEntity<>(updatedCustomer, HttpStatus.OK);
+		//customer.setCustomerId(id); // Set the ID of the customer to be updated
+		CustomerDTO updatedCustomerDTO = customerService.updateCustomer(customerDTO,id);
+		return new ResponseEntity<>(updatedCustomerDTO, HttpStatus.OK);
 		
 	}
 

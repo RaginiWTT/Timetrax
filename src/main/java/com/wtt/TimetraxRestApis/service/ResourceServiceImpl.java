@@ -27,20 +27,20 @@ public class ResourceServiceImpl implements ResourceService {
 
 	@Override
 	public ResourceDTO createResource(ResourceDTO resourceDTO) {
-		// this matching strategy will force ModelMapper to map only exact matches, avoiding type confusion.
-
-
+		// this matching strategy will force ModelMapper to map only exact matches,
+		// avoiding type confusion
 		modelMapper.getConfiguration().setMatchingStrategy(MatchingStrategies.STRICT);
-		// Convert ResourceDTO to Resource entity
 
-		//Resource resource = ResourceMapper.mapToResource(resourceDTO);
-		 Resource resource = modelMapper.map(resourceDTO, Resource.class);
+		// Convert ResourceDTO to Resource entity
+		// Resource resource = ResourceMapper.mapToResource(resourceDTO);
+		Resource resource = modelMapper.map(resourceDTO, Resource.class);
 
 		Resource savedResource = resourceRepo.save(resource);
 
 		if (savedResource != null) {
 			// Convert saved Resource entity back to ResourceDTO
-			//ResourceDTO savedResourceDTO = ResourceMapper.mapToResourceDTO(savedResource);
+			// ResourceDTO savedResourceDTO =
+			// ResourceMapper.mapToResourceDTO(savedResource);
 			ResourceDTO savedResourceDTO = modelMapper.map(savedResource, ResourceDTO.class);
 
 //		savedResourceDTO.setEmailId(savedResource.getEmailId());
@@ -86,7 +86,7 @@ public class ResourceServiceImpl implements ResourceService {
 			existingResource.setRole(resource.getRole());
 			existingResource.setModifiedBy(resource.getModifiedBy());
 			Resource updatedResource = resourceRepo.save(existingResource);
-			
+
 			if (updatedResource != null) {
 				// Convert updated Resource entity back to ResourceDTO
 				ResourceDTO updatedResourceDTO = modelMapper.map(updatedResource, ResourceDTO.class);
@@ -94,7 +94,7 @@ public class ResourceServiceImpl implements ResourceService {
 				return updatedResourceDTO;
 			}
 
-			//return updatedResource;
+			// return updatedResource;
 		}
 		return null;
 
