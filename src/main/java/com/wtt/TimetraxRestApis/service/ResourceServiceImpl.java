@@ -1,6 +1,8 @@
 package com.wtt.TimetraxRestApis.service;
 
 import org.modelmapper.ModelMapper;
+import org.modelmapper.convention.MatchingStrategies;
+import org.modelmapper.spi.MatchingStrategy;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -25,17 +27,21 @@ public class ResourceServiceImpl implements ResourceService {
 
 	@Override
 	public ResourceDTO createResource(ResourceDTO resourceDTO) {
-		// Convert ResourceDTO to Resource entity
+		// this matching strategy will force ModelMapper to map only exact matches,
+		// avoiding type confusion
+		modelMapper.getConfiguration().setMatchingStrategy(MatchingStrategies.STRICT);
 
-		Resource resource = ResourceMapper.mapToResource(resourceDTO);
-		//Resource resource = modelMapper.map(resourceDTO, Resource.class);
+		// Convert ResourceDTO to Resource entity
+		// Resource resource = ResourceMapper.mapToResource(resourceDTO);
+		Resource resource = modelMapper.map(resourceDTO, Resource.class);
 
 		Resource savedResource = resourceRepo.save(resource);
 
 		if (savedResource != null) {
 			// Convert saved Resource entity back to ResourceDTO
-			ResourceDTO savedResourceDTO = ResourceMapper.mapToResourceDTO(savedResource);
-			//ResourceDTO savedResourceDTO = modelMapper.map(savedResource, ResourceDTO.class);
+			// ResourceDTO savedResourceDTO =
+			// ResourceMapper.mapToResourceDTO(savedResource);
+			ResourceDTO savedResourceDTO = modelMapper.map(savedResource, ResourceDTO.class);
 
 //		savedResourceDTO.setEmailId(savedResource.getEmailId());
 //		savedResourceDTO.setFirstName(savedResource.getFirstName());
@@ -58,7 +64,11 @@ public class ResourceServiceImpl implements ResourceService {
 	}
 
 	@Override
-	public Resource updateResource(Resource resource) {
+	public ResourceDTO updateResource(ResourceDTO resourceDTO, int resourceId) {
+		// Convert ResourceDTO to Resource entity
+		modelMapper.getConfiguration().setMatchingStrategy(MatchingStrategies.STRICT);
+		Resource resource = modelMapper.map(resourceDTO, Resource.class);
+		resource.setResourceId(resourceId); // Set the ID of the Resource to be updated
 		Resource existingResource = resourceRepo.findById(resource.getResourceId()).get();
 		if (existingResource != null) {
 			existingResource.setEmailId(resource.getEmailId());
@@ -77,21 +87,29 @@ public class ResourceServiceImpl implements ResourceService {
 			existingResource.setModifiedBy(resource.getModifiedBy());
 			Resource updatedResource = resourceRepo.save(existingResource);
 
-			return updatedResource;
+			if (updatedResource != null) {
+				// Convert updated Resource entity back to ResourceDTO
+				ResourceDTO updatedResourceDTO = modelMapper.map(updatedResource, ResourceDTO.class);
+				// Return the updated ResourceDTO
+				return updatedResourceDTO;
+			}
+
+			// return updatedResource;
 		}
 		return null;
 
 	}
 
 	@Override
-	public Resource loginResourceByEmailId_Password(String emailId, String password) {
+	public ResourceDTO loginResourceByEmailId_Password(String emailId, String password) {
 		// TODO Auto-generated method stub
 		Resource resource = resourceRepo.findByEmailId(emailId);
 		if (resource != null) {
 			// Check if the password matches
 			if (resource.getPassword().equals(password)) {
-				// If the password matches, return the resource
-				return resource;
+				// If the password matches, return the resourceDTO
+				ResourceDTO resourceDTO = modelMapper.map(resource, ResourceDTO.class);
+				return resourceDTO;
 			}
 			return null; // If the password does not match, return null;
 		}

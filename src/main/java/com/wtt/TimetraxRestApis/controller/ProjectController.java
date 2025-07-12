@@ -10,6 +10,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
+import com.wtt.TimetraxRestApis.dto.ProjectDTO;
 import com.wtt.TimetraxRestApis.entity.Project;
 import com.wtt.TimetraxRestApis.service.ProjectService;
 
@@ -29,21 +30,21 @@ public class ProjectController {
 
 
 	 @PostMapping("/add/{customerId}")
-	 public ResponseEntity<Project> createProject(@RequestBody Project project, @PathVariable int customerId) {
-         System.out.println("Creating project: " + project);
-          Project createdProject = projectService.createProject(project, customerId);       	 
-	 return new ResponseEntity<>(createdProject, org.springframework.http.HttpStatus.CREATED);
+	 public ResponseEntity<ProjectDTO> createProject(@RequestBody ProjectDTO projectDTO, @PathVariable int customerId) {
+         System.out.println("Creating project: " + projectDTO);
+          ProjectDTO createdProjectDTO = projectService.createProject(projectDTO, customerId);       	 
+	 return new ResponseEntity<>(createdProjectDTO, org.springframework.http.HttpStatus.CREATED);
 	 }
 	 
 	 @PutMapping("/modify/{projectId}")
-		public ResponseEntity<Project> updateProject(@RequestBody Project project, @PathVariable int projectId,
+		public ResponseEntity<ProjectDTO> updateProject(@RequestBody ProjectDTO projectDto, @PathVariable int projectId,
 				@RequestParam(required = false) Integer customerId) {
 			
-         System.out.println("Updating project: " + project);
+         System.out.println("Updating project: " + projectDto);
          System.out.println("Customer ID: " + customerId);
-          Project updatedProject = projectService.updateProject(project, projectId, customerId);
+          ProjectDTO updatedProjectDTO = projectService.updateProject(projectDto, projectId, customerId);
           
-          return new ResponseEntity<>(updatedProject, org.springframework.http.HttpStatus.OK);
+          return new ResponseEntity<>(updatedProjectDTO, org.springframework.http.HttpStatus.OK);
 
 
 }

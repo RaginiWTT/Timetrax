@@ -1,184 +1,187 @@
 package com.wtt.TimetraxRestApis.dto;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
+import com.fasterxml.jackson.annotation.JsonProperty;
 
 public class ResourceDTO {
-	    private String emailId;
+	private String emailId;
 
-	    private String password;
+	@JsonProperty(access = JsonProperty.Access.WRITE_ONLY)
+	private String password;
 
-	    private String firstName;
+	private String firstName;
 
-	    private String lastName;
+	private String lastName;
 
-	    private String phoneNumber;
+	private String phoneNumber;
 
-	    private String addressLine1;
+	private String addressLine1;
 
-	    private String addressLine2;
+	private String addressLine2;
 
-	    private String city;
+	private String city;
 
-	    private String state;
+	private String state;
 
-	    private String zipcode;
+	private String zipcode;
 
-	    private String country;
+	private String country;
 
-	    private int role;
+	private int role;
 
-	    private Boolean active;
+	private Boolean active;
+    @JsonProperty(access = JsonProperty.Access.WRITE_ONLY)
+	private Integer createdBy;
+    @JsonProperty(access = JsonProperty.Access.WRITE_ONLY)
+	private Integer modifiedBy;
 
-	    private Integer createdBy;
-	    
-	    private Integer modifiedBy;
-	    
-		public ResourceDTO() {
-			// Default constructor
-		}
-		
-		public ResourceDTO(String emailId, String password, String firstName, String lastName, String phoneNumber,
-				String addressLine1, String addressLine2, String city, String state, String zipcode, String country,
-				int role, Boolean active, Integer createdBy, Integer modifiedBy) {
-			super();
-			this.emailId = emailId;
-			this.password = password;
-			this.firstName = firstName;
-			this.lastName = lastName;
-			this.phoneNumber = phoneNumber;
-			this.addressLine1 = addressLine1;
-			this.addressLine2 = addressLine2;
-			this.city = city;
-			this.state = state;
-			this.zipcode = zipcode;
-			this.country = country;
-			this.role = role;
-			this.active = active;
-			this.createdBy = createdBy;
-			this.modifiedBy = modifiedBy;
-		}
+	public ResourceDTO() {
+		// Default constructor
+	}
 
+	public ResourceDTO(String emailId, String password, String firstName, String lastName, String phoneNumber,
+			String addressLine1, String addressLine2, String city, String state, String zipcode, String country,
+			int role, Boolean active, Integer createdBy, Integer modifiedBy) {
+		super();
+		this.emailId = emailId;
+		this.password = password;
+		this.firstName = firstName;
+		this.lastName = lastName;
+		this.phoneNumber = phoneNumber;
+		this.addressLine1 = addressLine1;
+		this.addressLine2 = addressLine2;
+		this.city = city;
+		this.state = state;
+		this.zipcode = zipcode;
+		this.country = country;
+		this.role = role;
+		this.active = active;
+		this.createdBy = createdBy;
+		this.modifiedBy = modifiedBy;
+	}
 
+	public String getEmailId() {
+		return emailId;
+	}
 
-		public String getEmailId() {
-			return emailId;
-		}
+	public void setEmailId(String emailId) {
+		this.emailId = emailId;
+	}
 
-		public void setEmailId(String emailId) {
-			this.emailId = emailId;
-		}
+	public String getPassword() {
+		return password;
+	}
+	// because we do not want to send sensitive data in the response, we can comment
+	// this out
 
-		public String getPassword() {
-			return password;
-		}
+	public void setPassword(String password) {
+		this.password = password;
+	}
 
-		public void setPassword(String password) {
-			this.password = password;
-		}
+	public String getFirstName() {
+		return firstName;
+	}
 
-		public String getFirstName() {
-			return firstName;
-		}
+	public void setFirstName(String firstName) {
+		this.firstName = firstName;
+	}
 
-		public void setFirstName(String firstName) {
-			this.firstName = firstName;
-		}
+	public String getLastName() {
+		return lastName;
+	}
 
-		public String getLastName() {
-			return lastName;
-		}
+	public void setLastName(String lastName) {
+		this.lastName = lastName;
+	}
 
-		public void setLastName(String lastName) {
-			this.lastName = lastName;
-		}
+	public String getPhoneNumber() {
+		return phoneNumber;
+	}
 
-		public String getPhoneNumber() {
-			return phoneNumber;
-		}
+	public void setPhoneNumber(String phoneNumber) {
+		this.phoneNumber = phoneNumber;
+	}
 
-		public void setPhoneNumber(String phoneNumber) {
-			this.phoneNumber = phoneNumber;
-		}
+	public String getAddressLine1() {
+		return addressLine1;
+	}
 
-		public String getAddressLine1() {
-			return addressLine1;
-		}
+	public void setAddressLine1(String addressLine1) {
+		this.addressLine1 = addressLine1;
+	}
 
-		public void setAddressLine1(String addressLine1) {
-			this.addressLine1 = addressLine1;
-		}
+	public String getAddressLine2() {
+		return addressLine2;
+	}
 
-		public String getAddressLine2() {
-			return addressLine2;
-		}
+	public void setAddressLine2(String addressLine2) {
+		this.addressLine2 = addressLine2;
+	}
 
-		public void setAddressLine2(String addressLine2) {
-			this.addressLine2 = addressLine2;
-		}
+	public String getCity() {
+		return city;
+	}
 
-		public String getCity() {
-			return city;
-		}
+	public void setCity(String city) {
+		this.city = city;
+	}
 
-		public void setCity(String city) {
-			this.city = city;
-		}
+	public String getState() {
+		return state;
+	}
 
-		public String getState() {
-			return state;
-		}
+	public void setState(String state) {
+		this.state = state;
+	}
 
-		public void setState(String state) {
-			this.state = state;
-		}
+	public String getZipcode() {
+		return zipcode;
+	}
 
-		public String getZipcode() {
-			return zipcode;
-		}
+	public void setZipcode(String zipcode) {
+		this.zipcode = zipcode;
+	}
 
-		public void setZipcode(String zipcode) {
-			this.zipcode = zipcode;
-		}
+	public String getCountry() {
+		return country;
+	}
 
-		public String getCountry() {
-			return country;
-		}
+	public void setCountry(String country) {
+		this.country = country;
+	}
 
-		public void setCountry(String country) {
-			this.country = country;
-		}
+	public int getRole() {
+		return role;
+	}
 
-		public int getRole() {
-			return role;
-		}
+	public void setRole(int role) {
+		this.role = role;
+	}
 
-		public void setRole(int role) {
-			this.role = role;
-		}
+	public Boolean getActive() {
+		return active;
+	}
 
-		public Boolean getActive() {
-			return active;
-		}
+	public void setActive(Boolean active) {
+		this.active = active;
+	}
 
-		public void setActive(Boolean active) {
-			this.active = active;
-		}
+	public Integer getCreatedBy() {
+		return createdBy;
+	}
+	// because we do not want to send unnecessary data in the response, we can
+	// comment this out
 
-		public Integer getCreatedBy() {
-			return createdBy;
-		}
+	public void setCreatedBy(Integer createdBy) {
+		this.createdBy = createdBy;
+	}
 
-		public void setCreatedBy(Integer createdBy) {
-			this.createdBy = createdBy;
-		}
+	public Integer getModifiedBy() {
+		return modifiedBy;
+	}
 
-		public Integer getModifiedBy() {
-			return modifiedBy;
-		}
+	public void setModifiedBy(Integer modifiedBy) {
+		this.modifiedBy = modifiedBy;
+	}
 
-		public void setModifiedBy(Integer modifiedBy) {
-			this.modifiedBy = modifiedBy;
-		}
-		
-		
-     
 }
