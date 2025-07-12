@@ -9,6 +9,7 @@ import org.springframework.stereotype.Service;
 import com.wtt.TimetraxRestApis.dto.ResourceDTO;
 import com.wtt.TimetraxRestApis.entity.Customer;
 import com.wtt.TimetraxRestApis.entity.Resource;
+import com.wtt.TimetraxRestApis.exception.EmailAlreadyExistException;
 import com.wtt.TimetraxRestApis.mapper.ResourceMapper;
 import com.wtt.TimetraxRestApis.repository.ResourceRepo;
 
@@ -34,6 +35,12 @@ public class ResourceServiceImpl implements ResourceService {
 		// Convert ResourceDTO to Resource entity
 		// Resource resource = ResourceMapper.mapToResource(resourceDTO);
 		Resource resource = modelMapper.map(resourceDTO, Resource.class);
+		
+		if (resourceRepo.findByEmailId(resource.getEmailId()) != null) {
+			// If a resource with the same emailId already exists, return null or throw an exception
+		   throw new EmailAlreadyExistException("Resource already exists with given Email : " +
+							 resource.getEmailId());
+		}
 
 		Resource savedResource = resourceRepo.save(resource);
 

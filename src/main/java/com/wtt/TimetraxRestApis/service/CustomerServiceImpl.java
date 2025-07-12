@@ -9,6 +9,7 @@ import org.springframework.stereotype.Service;
 
 import com.wtt.TimetraxRestApis.dto.CustomerDTO;
 import com.wtt.TimetraxRestApis.entity.Customer;
+import com.wtt.TimetraxRestApis.exception.CustomerAlreadyExistsException;
 import com.wtt.TimetraxRestApis.repository.CustomerRepo;
 
 import lombok.AllArgsConstructor;
@@ -32,6 +33,14 @@ public class CustomerServiceImpl implements CustomerService {
 
 		// Convert CustomerDTO to Customer entity
 		Customer customer = modelMapper.map(customerDto, Customer.class);
+		// Check if a customer with the same name already exists
+		Optional<Customer> existingCustomer = customerRepo.findByCustomerName(customer.getCustomerName());
+		if (existingCustomer.isPresent()) {
+			// If a customer with the same name already exists, return null or throw an
+			// exception
+			throw new CustomerAlreadyExistsException(
+					"Customer already exists with name: " + customer.getCustomerName());
+		}
 		Customer savedCustomer = customerRepo.save(customer);
 
 		CustomerDTO savedCustomerDto = modelMapper.map(savedCustomer, CustomerDTO.class);
