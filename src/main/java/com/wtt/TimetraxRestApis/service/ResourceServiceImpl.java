@@ -10,6 +10,7 @@ import com.wtt.TimetraxRestApis.dto.ResourceDTO;
 import com.wtt.TimetraxRestApis.entity.Customer;
 import com.wtt.TimetraxRestApis.entity.Resource;
 import com.wtt.TimetraxRestApis.exception.EmailAlreadyExistException;
+import com.wtt.TimetraxRestApis.exception.ResourceNotFound;
 import com.wtt.TimetraxRestApis.mapper.ResourceMapper;
 import com.wtt.TimetraxRestApis.repository.ResourceRepo;
 
@@ -76,8 +77,30 @@ public class ResourceServiceImpl implements ResourceService {
 		modelMapper.getConfiguration().setMatchingStrategy(MatchingStrategies.STRICT);
 		Resource resource = modelMapper.map(resourceDTO, Resource.class);
 		resource.setResourceId(resourceId); // Set the ID of the Resource to be updated
-		Resource existingResource = resourceRepo.findById(resource.getResourceId()).get();
+		
+		// check if another resource with the same emailId already exists
+//		Resource existingResourceWithEmail = resourceRepo.findByEmailId(resource.getEmailId());
+//		if (existingResourceWithEmail != null && existingResourceWithEmail.getResourceId() != resourceId) {
+//			// If a resource with the same emailId exists and it's not the one being
+//			// updated, throw an exception
+//			throw new EmailAlreadyExistException("Another Resource exists with given Email : " + resource.getEmailId());
+//		}
+		// Fetch the existing resource from the database
+		
+		Resource existingResource = resourceRepo.findById(resource.getResourceId()).orElseThrow(
+				()-> new ResourceNotFound("Resource", "resourceId", resourceId)
+				);
+		
 		if (existingResource != null) {
+			//// check if another resource with the same emailId already exists
+			Resource existingResourceWithEmail = resourceRepo.findByEmailId(resource.getEmailId());
+			if (existingResourceWithEmail != null && existingResourceWithEmail.getResourceId() != existingResource.getResourceId()) {
+				// If a resource with the same emailId exists and it's not the one being
+				// updated, throw an exception
+				throw new EmailAlreadyExistException("Another Resource exists with given Email : " + resource.getEmailId());
+			}
+			
+			
 			existingResource.setEmailId(resource.getEmailId());
 			existingResource.setFirstName(resource.getFirstName());
 			existingResource.setLastName(resource.getLastName());
@@ -103,6 +126,7 @@ public class ResourceServiceImpl implements ResourceService {
 
 			// return updatedResource;
 		}
+		
 		return null;
 
 	}
