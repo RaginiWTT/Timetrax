@@ -42,17 +42,17 @@ public class GlobalExceptionHandler {
 		
 	}
 	
-	@ExceptionHandler(Exception.class)
-	public ResponseEntity<ErrorDetails> handleException(Exception ex, WebRequest request) {
-		ErrorDetails errorDetails = new ErrorDetails(
-				LocalDateTime.now(),
-				ex.getMessage(),
-				request.getDescription(false),
-				"INTERNAL_SERVER_ERROR");
-		return new ResponseEntity<>(errorDetails, org.springframework.http.HttpStatus.INTERNAL_SERVER_ERROR);
-
-		
-	}
+//	@ExceptionHandler(Exception.class)
+//	public ResponseEntity<ErrorDetails> handleException(Exception ex, WebRequest request) {
+//		ErrorDetails errorDetails = new ErrorDetails(
+//				LocalDateTime.now(),
+//				ex.getMessage(),
+//				request.getDescription(false),
+//				"INTERNAL_SERVER_ERROR");
+//		return new ResponseEntity<>(errorDetails, org.springframework.http.HttpStatus.INTERNAL_SERVER_ERROR);
+//
+//		
+//	}
 	
 	@ExceptionHandler(CustomerAlreadyExistsException.class)
 	public ResponseEntity<ErrorDetails> handleCustomerAlreadyExistsException(CustomerAlreadyExistsException ex, WebRequest request) {

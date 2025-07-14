@@ -10,6 +10,7 @@ import org.springframework.stereotype.Service;
 import com.wtt.TimetraxRestApis.dto.CustomerDTO;
 import com.wtt.TimetraxRestApis.entity.Customer;
 import com.wtt.TimetraxRestApis.exception.CustomerAlreadyExistsException;
+import com.wtt.TimetraxRestApis.exception.ResourceNotFound;
 import com.wtt.TimetraxRestApis.repository.CustomerRepo;
 
 import lombok.AllArgsConstructor;
@@ -34,8 +35,10 @@ public class CustomerServiceImpl implements CustomerService {
 		// Convert CustomerDTO to Customer entity
 		Customer customer = modelMapper.map(customerDto, Customer.class);
 		// Check if a customer with the same name already exists
-		Optional<Customer> existingCustomer = customerRepo.findByCustomerName(customer.getCustomerName());
-		if (existingCustomer.isPresent()) {
+//		Optional<Customer> existingCustomer = customerRepo.findByCustomerName(customer.getCustomerName());
+		Customer existingCustomer = customerRepo.findByCustomerName(customer.getCustomerName());
+
+		if (existingCustomer != null) {
 			// If a customer with the same name already exists, return null or throw an
 			// exception
 			throw new CustomerAlreadyExistsException(
@@ -49,8 +52,17 @@ public class CustomerServiceImpl implements CustomerService {
 
 	@Override
 	public CustomerDTO updateCustomer(CustomerDTO customer, int id) {
-		Customer existingCustomer = customerRepo.findById(id).get();
+		Customer existingCustomer = customerRepo.findById(id).orElseThrow(() 
+				-> new ResourceNotFound("Customer","CustomerId", id));
+		
 		if (existingCustomer != null) {
+			
+			Customer customerByName = customerRepo.findByCustomerName(customer.getCustomerName());
+			if (customerByName != null && customerByName.getCustomerId()!= existingCustomer.getCustomerId()) {
+				throw new CustomerAlreadyExistsException(
+						"Customer already exists with name: " + customer.getCustomerName());
+			}
+			
 			existingCustomer.setCustomerName(customer.getCustomerName());
 			existingCustomer.setEmail(customer.getEmail());
 			existingCustomer.setPhoneNumber(customer.getPhoneNumber());
@@ -77,10 +89,17 @@ public class CustomerServiceImpl implements CustomerService {
 	@Override
 	public Customer getCustomerById(Integer customerId) {
 		// TODO Auto-generated method stub
-		Customer customer = customerRepo.findById(customerId).get();
-		if (customer != null) {
-			return customer;
-		}
+		Customer customer = customerRepo.findById(customerId)
+				.orElseThrow(() -> new ResourceNotFound("Customer", "CustomerId", customerId));
+		
+		
+//		if (customer != null) {
+//			return customer;
+//		}
+//		else {
+//			throw new ResourceNotFound("Customer", "CustomerId", customerId);
+//		}
+		
 		return null;
 	}
 

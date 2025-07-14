@@ -41,7 +41,7 @@ public class ProjectServiceImpl implements ProjectService {
 		modelMapper.getConfiguration().setMatchingStrategy(org.modelmapper.convention.MatchingStrategies.STRICT);
 		
 		// Check if a project with the same name already exists
-		if (projectRepo.findByProjectName(project.getProjectName()).isPresent()) {
+		if (projectRepo.findByProjectName(project.getProjectName())!= null) {
 			// If a project with the same name already exists, return null or throw an exception
 			throw new ProjectAlreadyException("Project already exists with name: " + project.getProjectName());
 		}
@@ -61,10 +61,18 @@ public class ProjectServiceImpl implements ProjectService {
 	public ProjectDTO updateProject(ProjectDTO project, Integer projectId, int customerId) {
 		// TODO Auto-generated method stub
 		// Project project = modelMapper.map(projectDTO, Project.class);
-		Project existingProject = projectRepo.findById(projectId).get();
+		Project existingProject = projectRepo.findById(projectId).orElseThrow(() 
+				-> new com.wtt.TimetraxRestApis.exception.ResourceNotFound("Project", "ProjectId", projectId));
+		
 		if (existingProject != null) {
 
 			if (existingProject != null) {
+				// Check if a project with the same name already exists
+				Project existingProjectByName = projectRepo.findByProjectName(project.getProjectName());
+				if (existingProjectByName != null
+						&& existingProjectByName.getProjectId() != existingProject.getProjectId()) {
+					throw new ProjectAlreadyException("Project already exists with name: " + project.getProjectName());
+				}
 				existingProject.setProjectName(project.getProjectName());
 				existingProject.setProjectDescription(project.getProjectDescription());
 				existingProject.setActive(project.getActive());

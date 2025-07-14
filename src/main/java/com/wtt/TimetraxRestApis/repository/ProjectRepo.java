@@ -12,7 +12,8 @@ public interface ProjectRepo extends JpaRepository<Project, Integer> {
 	// Optional<Project> findByProjectName(String projectName);
 	
 	// Example of a custom query method to find a project by name
-	Optional<Project> findByProjectName(String projectName);
+	//Optional<Project> findByProjectName(String projectName);
+	Project findByProjectName(String projectName);
 	
 
 }
