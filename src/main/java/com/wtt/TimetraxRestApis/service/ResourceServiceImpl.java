@@ -1,5 +1,7 @@
 package com.wtt.TimetraxRestApis.service;
 
+import java.util.List;
+
 import org.modelmapper.ModelMapper;
 import org.modelmapper.convention.MatchingStrategies;
 import org.modelmapper.spi.MatchingStrategy;
@@ -145,6 +147,27 @@ public class ResourceServiceImpl implements ResourceService {
 			return null; // If the password does not match, return null;
 		}
 		// If no resource is found with the given emailId, return null
+		return null;
+	}
+
+	@Override
+	public Resource getResourceById(Integer resourceId) {
+		// TODO Auto-generated method stub
+		Resource resource = resourceRepo.findById(resourceId)
+				.orElseThrow(() -> new ResourceNotFound("Resource", "resourceId", resourceId));
+		
+		// Convert Resource entity to ResourceDTO
+	   return resource;
+	}
+
+	@Override
+	public List<Resource> getAllResources() {
+		// TODO Auto-generated method stub
+		List<Resource> resources = resourceRepo.findAll();
+		if (resources != null && !resources.isEmpty()) {
+			
+			return resources;
+		}
 		return null;
 	}
 

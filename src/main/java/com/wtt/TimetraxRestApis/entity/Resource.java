@@ -8,6 +8,8 @@ import lombok.Setter;
 
 import java.time.LocalDateTime;
 
+import com.fasterxml.jackson.annotation.JsonProperty;
+
 //@Getter
 //@Setter
 //@NoArgsConstructor
@@ -26,6 +28,7 @@ public class Resource {
     @Column(name = "EmailId", length = 200, nullable = false, unique = true)
     private String emailId;
 
+    @JsonProperty(access = JsonProperty.Access.WRITE_ONLY)
     @Column(name = "Password", length = 20, nullable = false)
     private String password;
 
@@ -64,9 +67,11 @@ public class Resource {
     @Column(name = "Active", nullable = false)
     private Boolean active;
 
+    @JsonProperty(access = JsonProperty.Access.WRITE_ONLY)
     @Column(name = "CreatedBy")
     private Integer createdBy;
     
+    @JsonProperty(access = JsonProperty.Access.WRITE_ONLY)
     @Column(name = "ModifiedBy")
     private Integer modifiedBy;
 

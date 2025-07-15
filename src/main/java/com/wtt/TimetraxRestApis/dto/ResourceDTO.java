@@ -1,9 +1,10 @@
 package com.wtt.TimetraxRestApis.dto;
 
-import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.JsonProperty;
 
 public class ResourceDTO {
+	//@JsonProperty(access = JsonProperty.Access.READ_ONLY)
+	//private int resourceId;
 	private String emailId;
 
 	@JsonProperty(access = JsonProperty.Access.WRITE_ONLY)
@@ -183,5 +184,15 @@ public class ResourceDTO {
 	public void setModifiedBy(Integer modifiedBy) {
 		this.modifiedBy = modifiedBy;
 	}
+
+//	public int getResourceId() {
+//		return resourceId;
+//	}
+//
+//	public void setResourceId(int resourceId) {
+//		this.resourceId = resourceId;
+//	}
+	
+	
 
 }

@@ -1,5 +1,6 @@
 package com.wtt.TimetraxRestApis.service;
 
+import java.util.List;
 import java.util.Optional;
 
 import org.modelmapper.ModelMapper;
@@ -100,7 +101,23 @@ public class CustomerServiceImpl implements CustomerService {
 //			throw new ResourceNotFound("Customer", "CustomerId", customerId);
 //		}
 		
-		return null;
+		return customer;
 	}
+
+	@Override
+	public List<Customer> getAllCustomers() {
+		// TODO Auto-generated method stub
+		List<Customer> customers = customerRepo.findAll();
+//		if (customers != null && !customers.isEmpty()) {
+//			// Convert List<Customer> to List<CustomerDTO>
+//			modelMapper.getConfiguration().setMatchingStrategy(MatchingStrategies.STRICT);
+//			List<CustomerDTO> customerDtos = customers.stream()
+//					.map(customer -> modelMapper.map(customer, CustomerDTO.class)).toList();
+//			return customerDtos;
+//		}
+		return customers;
+	}
+	
+	
 
 }

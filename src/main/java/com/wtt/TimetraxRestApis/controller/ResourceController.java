@@ -1,8 +1,11 @@
 package com.wtt.TimetraxRestApis.controller;
 
+import java.util.List;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.PutMapping;
@@ -66,6 +69,23 @@ public class ResourceController {
 			return new ResponseEntity<>(resourceDTO, HttpStatus.OK);
 		} else {
 			return new ResponseEntity<>(HttpStatus.UNAUTHORIZED);
+		}
+	}
+	
+	// Get Resource By Id method
+	@GetMapping("/{resourceId}")
+	public ResponseEntity<Resource> getResourceById(@PathVariable("resourceId") Integer resourceId) {
+		Resource resource = resourceService.getResourceById(resourceId);
+		return new ResponseEntity<>(resource, HttpStatus.OK);
+	}
+	
+	@GetMapping("/all")
+	public ResponseEntity<List<Resource>> getAllResources() {
+		List<Resource> resources = resourceService.getAllResources();
+		if (resources != null && !resources.isEmpty()) {
+			return new ResponseEntity<>(resources, HttpStatus.OK);
+		} else {
+			return new ResponseEntity<>(HttpStatus.NO_CONTENT);
 		}
 	}
 	

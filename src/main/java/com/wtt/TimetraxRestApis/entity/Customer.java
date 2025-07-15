@@ -3,6 +3,8 @@ package com.wtt.TimetraxRestApis.entity;
 import java.util.ArrayList;
 import java.util.List;
 
+import com.fasterxml.jackson.annotation.JsonProperty;
+
 import jakarta.persistence.*;
 
 @Entity
@@ -49,10 +51,11 @@ public class Customer {
     @Column(name = "Active")
     private Boolean active;
 
+    @JsonProperty(access = JsonProperty.Access.WRITE_ONLY)
     @Column(name = "CreatedBy")
     private Integer createdBy;
     
-    
+    @JsonProperty(access = JsonProperty.Access.WRITE_ONLY)
     @Column(name = "ModifiedBy")
     private Integer modifiedBy;
     
