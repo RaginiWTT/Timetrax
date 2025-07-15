@@ -155,7 +155,9 @@ public class ResourceServiceImpl implements ResourceService {
 		// TODO Auto-generated method stub
 		Resource resource = resourceRepo.findById(resourceId)
 				.orElseThrow(() -> new ResourceNotFound("Resource", "resourceId", resourceId));
-		return resource;
+		
+		// Convert Resource entity to ResourceDTO
+	   return resource;
 	}
 
 	@Override

@@ -1,6 +1,5 @@
 package com.wtt.TimetraxRestApis.entity;
 
-import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.JsonProperty;
 
 import jakarta.persistence.*;
@@ -13,12 +12,7 @@ public class Project {
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	private Integer projectId;
 
-	@JsonProperty(access = JsonProperty.Access.WRITE_ONLY)
-	@ManyToOne // Assuming Project is associated with a Customer)
-	@JoinColumn(name = "CustomerId", nullable = false)
-	private Customer customer; // Consider using @ManyToOne if there's a Customer entity.
-
-	@Column(length = 200, nullable = false, unique = true,name = "ProjectName")
+	@Column(length = 200, nullable = false, unique = true, name = "ProjectName")
 	private String projectName;
 
 	@Column(length = 500, name = "ProjectDescription")
@@ -34,6 +28,11 @@ public class Project {
 	@JsonProperty(access = JsonProperty.Access.WRITE_ONLY)
 	@Column(name = "ModifiedBy")
 	private Integer modifiedBy;
+
+	// @JsonProperty(access = JsonProperty.Access.WRITE_ONLY)
+	@ManyToOne // Assuming Project is associated with a Customer)
+	@JoinColumn(name = "CustomerId", nullable = false)
+	private Customer customer; // Consider using @ManyToOne if there's a Customer entity.
 
 	public Project() {
 		super();
