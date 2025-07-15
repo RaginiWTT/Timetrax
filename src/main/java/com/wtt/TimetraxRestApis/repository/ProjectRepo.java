@@ -1,9 +1,11 @@
 package com.wtt.TimetraxRestApis.repository;
 
+import java.util.List;
 import java.util.Optional;
 
 import org.springframework.data.jpa.repository.JpaRepository;
 
+import com.wtt.TimetraxRestApis.entity.Customer;
 import com.wtt.TimetraxRestApis.entity.Project;
 
 public interface ProjectRepo extends JpaRepository<Project, Integer> {
@@ -14,6 +16,8 @@ public interface ProjectRepo extends JpaRepository<Project, Integer> {
 	// Example of a custom query method to find a project by name
 	//Optional<Project> findByProjectName(String projectName);
 	Project findByProjectName(String projectName);
+
+	List<Project> findByCustomer(Customer customer);
 	
 
 }

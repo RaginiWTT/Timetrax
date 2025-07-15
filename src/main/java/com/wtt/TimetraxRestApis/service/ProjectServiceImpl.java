@@ -1,5 +1,7 @@
 package com.wtt.TimetraxRestApis.service;
 
+import java.util.List;
+
 import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -94,6 +96,36 @@ public class ProjectServiceImpl implements ProjectService {
 
 			}
 		}
+		return null;
+	}
+
+	@Override
+	public Project getProjectById(Integer projectId) {
+		// TODO Auto-generated method stub
+		Project project = projectRepo.findById(projectId).orElseThrow(
+				() -> new com.wtt.TimetraxRestApis.exception.ResourceNotFound("Project", "ProjectId", projectId));
+		return project;
+	}
+
+	@Override
+	public List<Project> getAllProjectsByCustomerId(Integer customerId) {
+		// TODO Auto-generated method stub
+		Customer customer = customerService.getCustomerById(customerId);
+		if (customer != null) {
+			List<Project> projects = projectRepo.findByCustomer(customer); // Fetch projects by customer
+			return projects; // Return the list of projects for the customer
+		}
+		return null;
+	}
+
+	@Override
+	public List<Project> getAllProjects() {
+		// TODO Auto-generated method stub
+		List<Project> projects = projectRepo.findAll();
+		if (projects != null && !projects.isEmpty()) {
+			return projects; // Return the list of all projects
+		}
+		// If no projects are found, return null or an empty list based on your preference
 		return null;
 	}
 
