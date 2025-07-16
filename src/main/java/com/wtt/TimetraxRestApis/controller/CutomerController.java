@@ -18,6 +18,11 @@ import com.wtt.TimetraxRestApis.dto.CustomerDTO;
 import com.wtt.TimetraxRestApis.entity.Customer;
 import com.wtt.TimetraxRestApis.service.CustomerService;
 
+import io.swagger.v3.oas.annotations.Operation;
+import io.swagger.v3.oas.annotations.responses.ApiResponse;
+import io.swagger.v3.oas.annotations.tags.Tag;
+
+@Tag(name = "Rest APIs for Customer", description = "These APIs are designed for managing the customers in the Timetrax application")
 @RestController
 @RequestMapping("/api/customer")
 public class CutomerController {
@@ -36,6 +41,8 @@ public class CutomerController {
 		this.customerService = customerService;
 	}
 
+	@Operation(summary = "Create a new customer", description = "This API creates a new customer in the Timetrax application.")
+	@ApiResponse(responseCode = "201", description = "HTTP Status 201 Created")
 	@PostMapping("/add")
 	 public ResponseEntity<CustomerDTO> createCustomer(@RequestBody CustomerDTO
 	 customerDTO) {
@@ -43,6 +50,9 @@ public class CutomerController {
 	 return new ResponseEntity<>(createdCustomer, HttpStatus.CREATED);
 	 }
 	
+	
+	@Operation(summary = "Update an existing customer", description = "This API updates the information of existing customer in the Timetrax application.")
+	@ApiResponse(responseCode = "200", description = "HTTP Status 200 OK")
 	@PutMapping("/update/{id}")
 	public ResponseEntity<CustomerDTO> updateCustomer(@PathVariable("id") int id, @RequestBody CustomerDTO customerDTO)
 	{
@@ -52,6 +62,8 @@ public class CutomerController {
 		
 	}
 	
+	@Operation(summary = "Get a customer by ID", description = "This API retrieves a customer by its ID from the Timetrax application.")
+	@ApiResponse(responseCode = "200", description = "HTTP Status 200 OK")
 	// getCustomer By Id method
 	@GetMapping("/{customerId}")
 	public ResponseEntity<Customer> getCustomerById(@PathVariable("customerId") Integer customerId) {
@@ -60,6 +72,9 @@ public class CutomerController {
 		return new ResponseEntity<>(customer, HttpStatus.OK);
 	}
 	
+	
+	@Operation(summary = "Get all customers", description = "This API retrieves all customers from the Timetrax application.")
+	@ApiResponse(responseCode = "200", description = "HTTP Status 200 OK")
 	@GetMapping("/all")
 	public ResponseEntity<List<Customer>> getAllCustomers() {
 		return ResponseEntity.ok(customerService.getAllCustomers());

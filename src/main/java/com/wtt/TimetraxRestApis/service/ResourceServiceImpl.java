@@ -156,7 +156,6 @@ public class ResourceServiceImpl implements ResourceService {
 		Resource resource = resourceRepo.findById(resourceId)
 				.orElseThrow(() -> new ResourceNotFound("Resource", "resourceId", resourceId));
 		
-		// Convert Resource entity to ResourceDTO
 	   return resource;
 	}
 

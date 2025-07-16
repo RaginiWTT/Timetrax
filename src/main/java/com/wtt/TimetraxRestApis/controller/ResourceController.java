@@ -19,7 +19,11 @@ import com.wtt.TimetraxRestApis.entity.Customer;
 import com.wtt.TimetraxRestApis.entity.Resource;
 import com.wtt.TimetraxRestApis.service.ResourceService;
 
+import io.swagger.v3.oas.annotations.Operation;
+import io.swagger.v3.oas.annotations.responses.ApiResponse;
+import io.swagger.v3.oas.annotations.tags.Tag;
 
+@Tag(name = "Rest APIs for Resource", description = "These APIs are designed for managing the resources in the Timetrax application")
 @RestController
 @RequestMapping("/api/resource")
 public class ResourceController {
@@ -33,6 +37,8 @@ public class ResourceController {
 	    }
 	
 	//handler method for creating a resource 
+	  @Operation(summary = "Create a new resource", description = "This API creates a new resource in the Timetrax application.")
+	  @ApiResponse(responseCode = "201", description = "HTTP Status 201 Created")
 	@PostMapping("/add")
 	public ResponseEntity<ResourceDTO> createResource(@RequestBody ResourceDTO resourceDTO) {
 		System.out.println("Creating resource: " + resourceDTO);
@@ -42,6 +48,8 @@ public class ResourceController {
 	
    
 	
+	  @Operation(summary = "Update an existing resource", description = "This API updates the information of existing resource in the Timetrax application.")
+	  @ApiResponse(responseCode = "200", description = "HTTP Status 200 OK")
 	@PutMapping("/update/{id}")
 	public ResponseEntity<ResourceDTO> updateCustomer(@PathVariable("id") int id, @RequestBody ResourceDTO resourceDTO)
 	{
@@ -61,6 +69,8 @@ public class ResourceController {
 //		}
 //	}
 	
+	  @Operation(summary = "Login resource by email and password", description = "This API allows a resource to log in using their email ID and password.")
+	  @ApiResponse(responseCode = "200", description = "HTTP Status 200 OK")
 	@PostMapping("/login")
 	public ResponseEntity<ResourceDTO> loginResourceByEmailId_Password(@RequestParam("emailId") String emailId,
 			@RequestParam("password") String password) {
@@ -73,12 +83,17 @@ public class ResourceController {
 	}
 	
 	// Get Resource By Id method
+	  @Operation(summary = "Get resource by ID", description = "This API retrieves a resource by its ID.")
+	  @ApiResponse(responseCode = "200", description = "HTTP Status 200 OK")
 	@GetMapping("/{resourceId}")
 	public ResponseEntity<Resource> getResourceById(@PathVariable("resourceId") Integer resourceId) {
 		Resource resource = resourceService.getResourceById(resourceId);
 		return new ResponseEntity<>(resource, HttpStatus.OK);
 	}
-	
+	  
+	  
+	@Operation(summary = "Get all resources", description = "This API retrieves all resources in the Timetrax application.")
+	@ApiResponse(responseCode = "200", description = "HTTP Status 200 OK")
 	@GetMapping("/all")
 	public ResponseEntity<List<Resource>> getAllResources() {
 		List<Resource> resources = resourceService.getAllResources();

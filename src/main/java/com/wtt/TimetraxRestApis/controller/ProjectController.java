@@ -15,6 +15,11 @@ import com.wtt.TimetraxRestApis.dto.ProjectDTO;
 import com.wtt.TimetraxRestApis.entity.Project;
 import com.wtt.TimetraxRestApis.service.ProjectService;
 
+import io.swagger.v3.oas.annotations.Operation;
+import io.swagger.v3.oas.annotations.responses.ApiResponse;
+import io.swagger.v3.oas.annotations.tags.Tag;
+
+@Tag(name = "Rest APIs for Project", description = "These APIs are designed for managing the projects in the Timetrax application")
 @RestController
 @RequestMapping("/api/project")
 public class ProjectController {
@@ -29,6 +34,8 @@ public class ProjectController {
 	// Define your endpoints here for project-related operations
 	// For example, you might have methods like createProject, getProjectById, etc.
 
+	@Operation(summary = "Create a new project", description = "This API creates a new project in the Timetrax application.")
+	@ApiResponse(responseCode = "201", description = "HTTP Status 201 Created")
 	@PostMapping("/add/{customerId}")
 	public ResponseEntity<ProjectDTO> createProject(@RequestBody ProjectDTO projectDTO, @PathVariable int customerId) {
 		System.out.println("Creating project: " + projectDTO);
@@ -36,6 +43,8 @@ public class ProjectController {
 		return new ResponseEntity<>(createdProjectDTO, org.springframework.http.HttpStatus.CREATED);
 	}
 
+	@Operation(summary = "Update an existing project", description = "This API updates the information of an existing project in the Timetrax application.")
+	@ApiResponse(responseCode = "200", description = "HTTP Status 200 OK")
 	@PutMapping("/modify/{projectId}")
 	public ResponseEntity<ProjectDTO> updateProject(@RequestBody ProjectDTO projectDto, @PathVariable int projectId,
 			@RequestParam(required = false) Integer customerId) {
@@ -48,12 +57,16 @@ public class ProjectController {
 
 	}
 
+	@Operation(summary = "Get project by ID", description = "This API retrieves a project by its ID from the Timetrax application.")
+	@ApiResponse(responseCode = "200", description = "HTTP Status 200 OK")
 	@GetMapping("/{projectId}")
 	public ResponseEntity<Project> getProjectById(@PathVariable("projectId") Integer projectId) {
 		Project project = projectService.getProjectById(projectId);
 		return new ResponseEntity<>(project, org.springframework.http.HttpStatus.OK);
 	}
 
+	@Operation(summary = "Get all projects by customer ID", description = "This API retrieves all projects associated with a specific customer ID from the Timetrax application.")
+	@ApiResponse(responseCode = "200", description = "HTTP Status 200 OK")
 	@GetMapping("/customer/{customerId}")
 	public ResponseEntity<java.util.List<Project>> getAllProjectsByCustomerId(
 			@PathVariable("customerId") Integer customerId) {
@@ -61,6 +74,8 @@ public class ProjectController {
 		return new ResponseEntity<>(projects, org.springframework.http.HttpStatus.OK);
 	}
 
+	@Operation(summary = "Get all projects", description = "This API retrieves all projects from the Timetrax application.")
+	@ApiResponse(responseCode = "200", description = "HTTP Status 200 OK")
 	@GetMapping("/all")
 	public ResponseEntity<java.util.List<Project>> getAllProjects() {
 		java.util.List<Project> projects = projectService.getAllProjects();
