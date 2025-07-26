@@ -1,5 +1,4 @@
 package com.wtt.TimetraxRestApis.repository;
-import java.util.Optional;
 
 import org.springframework.data.jpa.repository.JpaRepository;
 
@@ -13,4 +12,6 @@ public interface CustomerRepo extends JpaRepository<Customer, Integer> {
 
     //Optional<Customer> findByCustomerName(String customerName);
 	Customer findByCustomerName(String customerName);
+	
+	
 }
