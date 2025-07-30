@@ -20,11 +20,11 @@ public class TimesheetLine {
 
 	@ManyToOne
 	@JoinColumn(nullable = false, name = "ProjectId")
-	private Project projectId;
+	private Project project;
 
 	@ManyToOne
 	@JoinColumn(nullable = false, name = "TaskId")
-	private ProjectTask taskId;
+	private ProjectTask task;
 
 	@Column(nullable = false, name = "Status")
 	private String status;
@@ -65,8 +65,8 @@ public class TimesheetLine {
 		super();
 		this.lineId = lineId;
 		this.timesheet = timesheet;
-		this.projectId = projectId;
-		this.taskId = taskId;
+		this.project = projectId;
+		this.task = taskId;
 		this.status = status;
 		this.createdBy = createdBy;
 		this.createdDateTime = createdDateTime;
@@ -91,20 +91,20 @@ public class TimesheetLine {
 		this.timesheet = timesheet;
 	}
 
-	public Project getProjectId() {
-		return projectId;
+	public Project getProject() {
+		return project;
 	}
 
-	public void setProjectId(Project projectId) {
-		this.projectId = projectId;
+	public void setProject(Project project) {
+		this.project = project;
 	}
 
-	public ProjectTask getTaskId() {
-		return taskId;
+	public ProjectTask getTask() {
+		return task;
 	}
 
-	public void setTaskId(ProjectTask taskId) {
-		this.taskId = taskId;
+	public void setTask(ProjectTask task) {
+		this.task = task;
 	}
 
 	public Integer getCreatedBy() {

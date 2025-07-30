@@ -1,10 +1,16 @@
 package com.wtt.TimetraxRestApis.service;
 
+import java.time.LocalDate;
+import java.time.LocalDateTime;
+import java.util.List;
+
+import com.wtt.TimetraxRestApis.dto.TimesheetResponseDTO;
 import com.wtt.TimetraxRestApis.entity.Timesheet;
 
 public interface TimesheetService {
 	
 	Timesheet saveTimesheet(Timesheet timesheet);
+	List<TimesheetResponseDTO> getTimehseetByStartDateAndStatusId(LocalDate localDate, Integer statusId);
 
 	/**
 	 * Retrieves a Timesheet by its ID.

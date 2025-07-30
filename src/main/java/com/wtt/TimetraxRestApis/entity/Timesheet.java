@@ -42,8 +42,15 @@ public class Timesheet {
     private Integer approvedBy;
     @Column(name = "ApprovedDateTime")
     private LocalDateTime approvedDateTime;
+    
+    @Column(name = "StatusId")
+    private Integer statusId;
+    
 
-    @Column(precision = 18, scale = 2,	 nullable = false, name = "TotalHours")
+
+
+
+	@Column(precision = 18, scale = 2,	 nullable = false, name = "TotalHours")
     private BigDecimal totalHours = BigDecimal.ZERO;
 
     // Relationships
@@ -201,6 +208,20 @@ public class Timesheet {
 				+ ", approvedBy=" + approvedBy + ", approvedDateTime=" + approvedDateTime + ", totalHours=" + totalHours
 				+ ", lines=" + lines + "]";
 	}
+
+
+
+
+	public Integer getStatusId() {
+		// TODO Auto-generated method stub
+		return statusId;
+	}
+	
+
+    public void setStatusId(Integer statusId) {
+		this.statusId = statusId;
+	}
+
 	
 	
     
