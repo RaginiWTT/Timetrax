@@ -73,6 +73,7 @@ public class TimesheetController {
 		timesheet.setCreatedBy(dto.getCreatedBy());
 		timesheet.setCreatedDateTime(dto.getCreatedDateTime());
 		timesheet.setSubmittedBy(dto.getSubmittedBy());
+		timesheet.setStatusId(dto.getStatusId());
 		// Set other fields
 
 		List<TimesheetLine> lines = new ArrayList<>();

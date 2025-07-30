@@ -43,7 +43,7 @@ public class Timesheet {
     @Column(name = "ApprovedDateTime")
     private LocalDateTime approvedDateTime;
     
-    @Column(name = "StatusId")
+    @Column(name = "StatusId", columnDefinition = "int default 1")
     private Integer statusId;
     
 
@@ -77,7 +77,7 @@ public class Timesheet {
 
 	public Timesheet(Integer timesheetId, Resource resourceId, LocalDate weekStartDate, LocalDate weekEndDate,
 			Integer createdBy, LocalDateTime createdDateTime, Integer submittedBy, LocalDateTime submittedDateTime,
-			Integer approvedBy, LocalDateTime approvedDateTime, BigDecimal totalHours, List<TimesheetLine> lines) {
+			Integer approvedBy, LocalDateTime approvedDateTime,Integer statusId ,BigDecimal totalHours, List<TimesheetLine> lines) {
 		super();
 		this.timesheetId = timesheetId;
 		this.resourceId = resourceId;
@@ -89,6 +89,7 @@ public class Timesheet {
 		this.submittedDateTime = submittedDateTime;
 		this.approvedBy = approvedBy;
 		this.approvedDateTime = approvedDateTime;
+		this.statusId = statusId;
 		this.totalHours = totalHours;
 		this.lines = lines;
 	}

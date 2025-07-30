@@ -9,6 +9,7 @@ public class TimesheetDTO {
 	private Integer createdBy;
 	private LocalDateTime createdDateTime;
 	private Integer submittedBy;
+	private Integer statusId; // Assuming statusId is needed
 	private List<TimesheetLineDTO> lines = new ArrayList<TimesheetLineDTO>();
 	// Add other fields as needed
 
@@ -16,13 +17,14 @@ public class TimesheetDTO {
 
 	}
 
-	public TimesheetDTO(Integer resourceId, Integer createdBy, LocalDateTime createdDateTime, Integer submittedBy,
+	public TimesheetDTO(Integer resourceId, Integer createdBy, LocalDateTime createdDateTime, Integer submittedBy,Integer statusId,
 			List<TimesheetLineDTO> lines) {
 		super();
 		this.resourceId = resourceId;
 		this.createdBy = createdBy;
 		this.createdDateTime = createdDateTime;
 		this.submittedBy = submittedBy;
+		this.statusId = statusId; // Initialize statusId
 		this.lines = lines;
 	}
 
@@ -64,6 +66,14 @@ public class TimesheetDTO {
 
 	public void setLines(List<TimesheetLineDTO> lines) {
 		this.lines = lines;
+	}
+	
+	public Integer getStatusId() {
+		return statusId;
+	}
+
+	public void setStatusId(Integer statusId) {
+		this.statusId = statusId;
 	}
 
 	@Override
