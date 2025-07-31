@@ -4,14 +4,18 @@ import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Optional;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
+import com.wtt.TimetraxRestApis.dto.TimesheetApprovalResponseDTO;
 import com.wtt.TimetraxRestApis.dto.TimesheetResponseDTO;
 import com.wtt.TimetraxRestApis.entity.Timesheet;
 import com.wtt.TimetraxRestApis.entity.TimesheetLine;
 import com.wtt.TimetraxRestApis.entity.TimesheetLineHour;
+import com.wtt.TimetraxRestApis.repository.ProjectTaskRepository;
 import com.wtt.TimetraxRestApis.repository.ResourceRepo;
 import com.wtt.TimetraxRestApis.repository.TimesheetRepository;
 
@@ -24,6 +28,8 @@ public class TimesheetServiceImpl implements TimesheetService{
     @Autowired
     private ResourceRepo resourceRepo;
 
+    @Autowired
+    private ProjectTaskRepository projectTaskRepository;
 
 
 	@Override
@@ -77,4 +83,42 @@ public class TimesheetServiceImpl implements TimesheetService{
 		
 		return null; // Placeholder return statement
 	}
+	
+//	
+//    @Override
+//    @Transactional
+//    public void approveTimesheet(Integer timesheetId, Integer statusId, Integer approvedBy, Integer active) {
+//    timesheetRepository.updateTimesheetStatus(timesheetId, statusId, approvedBy);
+//      projectTaskRepository.updateActiveFlagForTasks(timesheetId, active);
+//    }
+//	
+	
+	@Override
+	@Transactional
+	public TimesheetApprovalResponseDTO approveTimesheet(Integer timesheetId, Integer statusId, Integer approvedBy, Integer activeFlag) {
+	   
+		Long longValue = timesheetId.longValue();
+
+		Optional<Timesheet> optionalTimesheet = timesheetRepository.findById(longValue);
+
+	    if (optionalTimesheet.isEmpty()) {
+	        return new TimesheetApprovalResponseDTO(timesheetId, "Timesheet not found", false);
+	    }
+
+	    Timesheet timesheet = optionalTimesheet.get();
+
+	    // ✅ Business Rule: don't approve if already approved
+	    if (timesheet.getStatusId() != null && timesheet.getStatusId() == 2) {
+	        return new TimesheetApprovalResponseDTO(timesheetId, "Timesheet already approved", false);
+	    }
+
+	    // ✅ Perform updates
+	    timesheetRepository.updateTimesheetStatus(timesheetId, statusId, approvedBy);
+	    projectTaskRepository.updateActiveFlagForTasks(timesheetId, activeFlag);
+
+	    return new TimesheetApprovalResponseDTO(timesheetId, "Timesheet approved successfully", true);
+	}
+
+	    	
+	    
 }

@@ -7,12 +7,15 @@ import java.util.List;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
+import com.wtt.TimetraxRestApis.dto.TimesheetApprovalResponseDTO;
 import com.wtt.TimetraxRestApis.dto.TimesheetDTO;
 import com.wtt.TimetraxRestApis.dto.TimesheetHourDTO;
 import com.wtt.TimetraxRestApis.dto.TimesheetLineDTO;
@@ -128,4 +131,22 @@ public class TimesheetController {
 		// return dtos != null && !dtos.isEmpty() ? ResponseEntity.ok(dtos) :
 		// ResponseEntity.noContent().build();
 	}
+	
+//	@PostMapping("/approve/{timesheetId}")
+//	public ResponseEntity<String> approveTimesheet(@PathVariable Integer timesheetId,
+//	                                               @RequestParam Integer statusId,
+//	                                               @RequestParam Integer approvedBy) {
+//	    timesheetService.approveTimesheet(timesheetId, statusId, approvedBy, 0); // 0 = inactive
+//	    return ResponseEntity.ok("Timesheet approved and tasks deactivated.");
+//	}
+	
+	@PutMapping("/approve/{timesheetId}")
+	public ResponseEntity<TimesheetApprovalResponseDTO> approveTimesheet(@PathVariable Integer timesheetId,
+	                                                                      @RequestParam Integer statusId,
+	                                                                      @RequestParam Integer approvedBy) {
+	    TimesheetApprovalResponseDTO response = timesheetService.approveTimesheet(timesheetId, statusId, approvedBy, 0);
+	    return ResponseEntity.ok(response);
+	}
+
+
 }
