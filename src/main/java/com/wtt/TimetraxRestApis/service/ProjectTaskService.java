@@ -9,11 +9,13 @@ import com.wtt.TimetraxRestApis.entity.ProjectTask;
 public interface ProjectTaskService {
 	ProjectTaskResponseDTO createProjectTask(ProjectTaskDTO projectTaskDTO);
     List<ProjectTaskResponseDTO> getTasksByProjectId(Integer projectId);
+    
+    // method for updating the task
+    //	ProjectTaskResponseDTO updateProjectTask(ProjectTaskDTO projectTaskDTO, Integer taskId);	
 
-
-//	ProjectTaskDTO updateProjectTask(ProjectTaskDTO projectTaskDTO, int taskId);
+	ProjectTaskDTO updateProjectTask(ProjectTaskDTO projectTaskDTO, int taskId);
 //
-//	ProjectTask getProjectTaskById(Integer taskId);
+	ProjectTaskDTO getProjectTaskById(Integer taskId);
 //
 //	List<ProjectTask> getAllProjectTasks();
 //

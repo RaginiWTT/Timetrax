@@ -33,5 +33,33 @@ public class ProjectTaskController {
         List<ProjectTaskResponseDTO> tasks = projectTaskService.getTasksByProjectId(projectId);
         return ResponseEntity.ok(tasks);
     }
+    
+    @PutMapping("/update/{taskId}")
+	public ResponseEntity<?> updateTask(@RequestBody ProjectTaskDTO projectTaskDTO, @PathVariable int taskId) {
+		try {
+			ProjectTaskDTO updatedTask = projectTaskService.updateProjectTask(projectTaskDTO, taskId);
+			return ResponseEntity.ok(updatedTask);
+		} catch (Exception e) {
+			return ResponseEntity.badRequest().body(e.getMessage());
+		}
+	}
+    
+	@GetMapping("/{taskId}")
+	public ResponseEntity<ProjectTaskDTO> getTaskById(@PathVariable Integer taskId) {
+		ProjectTaskDTO task = projectTaskService.getProjectTaskById(taskId);
+		return ResponseEntity.ok(task);
+	}
+
+//	@GetMapping("/all")
+//	public ResponseEntity<List<ProjectTask>> getAllTasks() {
+//		List<ProjectTask> tasks = projectTaskService.getAllProjectTasks();
+//		return ResponseEntity.ok(tasks);
+//	}
+//
+//	@DeleteMapping("/delete/{taskId}")
+//	public ResponseEntity<String> deleteTaskById(@PathVariable Integer taskId) {
+//		projectTaskService.deleteProjectTaskById(taskId);
+//		return ResponseEntity.ok("Task deleted successfully");
+//	}
 }
 

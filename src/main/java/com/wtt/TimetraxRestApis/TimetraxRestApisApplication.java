@@ -38,4 +38,16 @@ public class TimetraxRestApisApplication {
 		SpringApplication.run(TimetraxRestApisApplication.class, args);
 	}
 
+//	public static void main(String[] args) {
+//		/TimetraxRestApis/src/main/java/com/wtt/TimetraxRestApis/TimetraxRestApisApplication.java
+//	}
+//
+//	public static void main(String[] args) {
+//		/TimetraxRestApis/src/main/java/com/wtt/TimetraxRestApis/TimetraxRestApisApplication.java
+//	}
+//
+//	public static void main(String[] args) {
+//		/TimetraxRestApis/src/main/java/com/wtt/TimetraxRestApis/TimetraxRestApisApplication.java
+//	}
+
 }

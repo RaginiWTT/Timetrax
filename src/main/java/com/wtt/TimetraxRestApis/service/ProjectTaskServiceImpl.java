@@ -67,5 +67,48 @@ public class ProjectTaskServiceImpl implements ProjectTaskService{
 	            return dto;
 	        }).collect(Collectors.toList());
 	    }
+	@Override
+	public ProjectTaskDTO updateProjectTask(ProjectTaskDTO projectTaskDTO, int taskId) {
+		// TODO Auto-generated method stub
+		ProjectTask existingTask = projectTaskRepository.findById(taskId)
+				.orElseThrow(() -> new RuntimeException("Task not found with id: " + taskId));
+		if (existingTask != null) {
+			
+			Project project = projectRepository.findById(projectTaskDTO.getProjectId()).orElseThrow(
+					() -> new RuntimeException("Project not found with id: " + projectTaskDTO.getProjectId()));
+			
+	
+			// Update the fields of the existing task
+			existingTask.setTaskName(projectTaskDTO.getTaskName());
+			existingTask.setActive(projectTaskDTO.getActive());
+			existingTask.setModifiedBy(projectTaskDTO.getModifiedBy());
+			existingTask.setProject(project);
+			
+			
+		
+			
+			//existingTask.setModifiedDateTime(LocalDateTime.now());
+
+			// Save the updated task
+			ProjectTask updatedTask = projectTaskRepository.save(existingTask);
+
+			// Map to DTO and return
+			return mapper.map(updatedTask, ProjectTaskDTO.class);
+		}
+		else
+		{
+			throw new RuntimeException("Task not found with id: " + taskId);
+		}
+		
+		}
+	@Override
+	public ProjectTaskDTO getProjectTaskById(Integer taskId) {
+		 // Retrieve the task by ID
+			ProjectTaskDTO taskDTO = projectTaskRepository.findById(taskId)
+					.map(task -> mapper.map(task, ProjectTaskDTO.class))
+					.orElseThrow(() -> new RuntimeException("Task not found with id: " + taskId));
+		return taskDTO;
+        }
+	
 }
 
