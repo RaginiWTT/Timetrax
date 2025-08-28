@@ -3,6 +3,7 @@ package com.wtt.TimetraxRestApis.service;
 import com.wtt.TimetraxRestApis.dto.AssignResourceDTO;
 import com.wtt.TimetraxRestApis.entity.AssignResource;
 import com.wtt.TimetraxRestApis.entity.Project;
+import com.wtt.TimetraxRestApis.exception.EmailAlreadyExistException;
 import com.wtt.TimetraxRestApis.exception.ResourceNotFound;
 import com.wtt.TimetraxRestApis.repository.AssignResourceRepository;
 import com.wtt.TimetraxRestApis.repository.ProjectRepo;
@@ -10,7 +11,9 @@ import com.wtt.TimetraxRestApis.repository.ResourceRepo;
 
 import lombok.RequiredArgsConstructor;
 
+import java.time.LocalDate;
 import java.util.List;
+import java.util.Set;
 import java.util.stream.Collectors;
 
 import org.modelmapper.ModelMapper;
@@ -51,6 +54,20 @@ public class AssignResourceServiceImpl implements AssignResourceService {
 		// Check if the resource exists
 		com.wtt.TimetraxRestApis.entity.Resource resource = resourceRepository.findById(dto.getResourceId())
 				.orElseThrow(() -> new ResourceNotFound("Resource", "ResourceId", dto.getResourceId()));
+		
+		
+		
+		// to avoid overlapping assignments for the same resource on the same project
+		List<AssignResource> existingAssignments = assignResourceRepository
+				.findByProjectIdAndResourceId(dto.getProjectId(), dto.getResourceId());
+		
+		for (AssignResource assignment : existingAssignments) {
+            // Check for overlapping date ranges
+            if (datesOverlap(assignment.getFromDate(), assignment.getToDate(), dto.getFromDate(), dto.getToDate())) {
+               // throw new IllegalArgumentException("Resource is already assigned to this project during the specified date range.");
+               throw new EmailAlreadyExistException("Resource is already assigned to this project during the specified date range."); 
+            }
+		}
 
 		// Skip the id field in AssignResource during mapping
 
@@ -69,6 +86,20 @@ public class AssignResourceServiceImpl implements AssignResourceService {
 		savedDto.setProjectName(project.getProjectName());
 		savedDto.setResourceName(resource.getFirstName() + " " + resource.getLastName());
 		return savedDto;
+		
+	}
+
+private boolean datesOverlap(LocalDate fromDate, LocalDate toDate, LocalDate fromDate2, LocalDate toDate2) {
+		// TODO Auto-generated method stub
+		if (fromDate == null || toDate == null || fromDate2 == null || toDate2 == null) {
+			return false; // If any date is null, we cannot determine overlap
+		}
+
+		// Check if the date ranges overlap
+		if (!fromDate.isAfter(toDate2) && !fromDate2.isAfter(toDate)) {
+			return true; // There is an overlap
+		}
+		return false;
 	}
 
 //	public List<AssignResourceDTO> getAllAssignedResources() {
@@ -97,13 +128,46 @@ public class AssignResourceServiceImpl implements AssignResourceService {
 	@Override
 	public List<AssignResourceDTO> getAssignedResourcesByProject(Integer projectId) {
 		return assignResourceRepository.findByProjectId(projectId).stream()
-				.map(resource -> modelMapper.map(resource, AssignResourceDTO.class)).collect(Collectors.toList());
+				.map(resource ->
+				{
+					// Convert AssignResource to AssignResourceDTO
+                    AssignResourceDTO dto = modelMapper.map(resource, AssignResourceDTO.class);
+
+                    // Set projectName
+                    projectRepository.findById(dto.getProjectId())
+                            .ifPresent(project -> dto.setProjectName(project.getProjectName()));
+
+                    // Set resourceName
+                    resourceRepository.findById(dto.getResourceId()).ifPresent(
+                            res -> dto.setResourceName(res.getFirstName() + " " + res.getLastName()));
+
+                    return dto;
+				})
+				.collect(Collectors.toList());
 	}
 
 	@Override
 	public List<AssignResourceDTO> getAssignedResourcesByResource(Integer resourceId) {
-		return assignResourceRepository.findByResourceId(resourceId).stream()
-				.map(resource -> modelMapper.map(resource, AssignResourceDTO.class)).collect(Collectors.toList());
+	return assignResourceRepository.findByResourceId(resourceId).stream()
+		//return assignResourceRepository.findByResourceIdAndActiveStatus(resourceId,true).stream()
+			.map(resource -> 
+				//modelMapper.map(resource, AssignResourceDTO.class)).collect(Collectors.toList());
+				{
+			// Convert AssignResource to AssignResourceDTO
+            AssignResourceDTO dto = modelMapper.map(resource, AssignResourceDTO.class);
+
+            // Set projectName
+            projectRepository.findById(dto.getProjectId())
+                    .ifPresent(project -> dto.setProjectName(project.getProjectName()));
+
+            // Set resourceName
+            resourceRepository.findById(dto.getResourceId()).ifPresent(
+                    res -> dto.setResourceName(res.getFirstName() + " " + res.getLastName()));
+
+            return dto;
+		})
+		.collect(Collectors.toList());
+		
 	}
 
 	@Override

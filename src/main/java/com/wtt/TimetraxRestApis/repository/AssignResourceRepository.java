@@ -13,5 +13,7 @@ public interface AssignResourceRepository extends JpaRepository<AssignResource, 
 	
 	  List<AssignResource> findByProjectId(Integer projectId);
 	    List<AssignResource> findByResourceId(Integer resourceId);
+	  //  List<AssignResource> findByResourceIdAndActiveStatus(Integer resourceId, Boolean activeStatus);
+		List<AssignResource> findByProjectIdAndResourceId(Integer projectId, Integer resourceId);
 }
 

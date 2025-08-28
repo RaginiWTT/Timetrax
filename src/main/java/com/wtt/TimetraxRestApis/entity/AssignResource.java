@@ -135,6 +135,16 @@ public class AssignResource {
 				+ fromDate + ", toDate=" + toDate + ", assignedBy=" + assignedBy + ", assignedDatetime="
 				+ assignedDatetime + ", modifiedBy=" + modifiedBy + ", modifiedDateTime=" + modifiedDateTime + "]";
 	}
+
+//	@Override
+//	public int compareTo(AssignResource o) {
+//		// TODO Auto-generated method stub
+//		// comapre by id
+//		if (this.id != null && o.id != null) {
+//			return this.id.compareTo(o.id);
+//		}
+//		return 0;
+//	}
     
     
     

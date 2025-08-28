@@ -4,12 +4,13 @@ package com.wtt.TimetraxRestApis.dto;
 import lombok.*;
 import java.time.LocalDate;
 import java.time.LocalDateTime;
+import java.util.Objects;
 
 import com.fasterxml.jackson.annotation.JsonProperty;
 
 
 @Builder
-public class AssignResourceDTO {
+public class AssignResourceDTO implements Comparable<AssignResourceDTO>  {
 	private Integer id;
     private Integer projectId;
     private Integer resourceId;
@@ -119,6 +120,34 @@ public class AssignResourceDTO {
 	public void setResourceName(String resourceName) {
 		this.ResourceName = resourceName;
 	}
+
+	@Override
+	public int compareTo(AssignResourceDTO o) {
+		// implement comparison logic based on the project id
+		if (this.projectId != null && o.projectId != null) {
+			return this.projectId.compareTo(o.projectId);
+		}
+		return 0;
+	}
+
+	@Override
+	public int hashCode() {
+		return Objects.hash(projectId);
+	}
+
+	@Override
+	public boolean equals(Object obj) {
+		if (this == obj)
+			return true;
+		if (obj == null)
+			return false;
+		if (getClass() != obj.getClass())
+			return false;
+		AssignResourceDTO other = (AssignResourceDTO) obj;
+		return Objects.equals(projectId, other.projectId);
+	}
+	
+	
     
 }
 
