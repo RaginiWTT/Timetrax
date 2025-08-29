@@ -1,8 +1,11 @@
 package com.wtt.TimetraxRestApis.dto;
 
+import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.List;
+
+import jakarta.persistence.Column;
 
 public class TimesheetDTO {
 	private Integer resourceId;
@@ -10,6 +13,26 @@ public class TimesheetDTO {
 	private LocalDateTime createdDateTime;
 	private Integer submittedBy;
 	private Integer statusId; // Assuming statusId is needed
+	
+    public LocalDate getWeekStartDate() {
+		return weekStartDate;
+	}
+
+	public void setWeekStartDate(LocalDate weekStartDate) {
+		this.weekStartDate = weekStartDate;
+	}
+
+	public LocalDate getWeekEndDate() {
+		return weekEndDate;
+	}
+
+	public void setWeekEndDate(LocalDate weekEndDate) {
+		this.weekEndDate = weekEndDate;
+	}
+
+	private LocalDate weekStartDate;
+    private LocalDate weekEndDate;
+    
 	private List<TimesheetLineDTO> lines = new ArrayList<TimesheetLineDTO>();
 	// Add other fields as needed
 
@@ -17,7 +40,7 @@ public class TimesheetDTO {
 
 	}
 
-	public TimesheetDTO(Integer resourceId, Integer createdBy, LocalDateTime createdDateTime, Integer submittedBy,Integer statusId,
+	public TimesheetDTO(Integer resourceId, Integer createdBy, LocalDateTime createdDateTime, Integer submittedBy,Integer statusId,LocalDate weekStartDate,LocalDate weekEndDate,
 			List<TimesheetLineDTO> lines) {
 		super();
 		this.resourceId = resourceId;
@@ -25,6 +48,8 @@ public class TimesheetDTO {
 		this.createdDateTime = createdDateTime;
 		this.submittedBy = submittedBy;
 		this.statusId = statusId; // Initialize statusId
+		this.weekStartDate = weekStartDate;
+		this.weekEndDate= weekEndDate;
 		this.lines = lines;
 	}
 

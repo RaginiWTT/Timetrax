@@ -60,9 +60,10 @@ public class Timesheet {
     // Automatically set dates for new entity
     @PrePersist
     public void prePersist() {
-        this.weekStartDate = LocalDate.now().with(DayOfWeek.MONDAY);
-        this.weekEndDate = LocalDate.now().with(DayOfWeek.SUNDAY);
-        submittedDateTime = LocalDateTime.now();
+//        this.weekStartDate = LocalDate.now().with(DayOfWeek.MONDAY);
+//        this.weekEndDate = LocalDate.now().with(DayOfWeek.SUNDAY);
+       // submittedDateTime = LocalDateTime.now();
+        this.createdDateTime = LocalDateTime.now();
     }
     
  

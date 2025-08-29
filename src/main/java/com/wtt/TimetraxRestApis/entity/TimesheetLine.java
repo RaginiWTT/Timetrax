@@ -44,11 +44,10 @@ public class TimesheetLine {
 
 	// always comes from frontend
 
-//    @PrePersist
-//    public void prePersist() {
-
-//        this.createdDateTime = LocalDateTime.now();
-//    }
+    @PrePersist
+    public void prePersist() {
+        this.createdDateTime = LocalDateTime.now();
+    }
 
 	@PreUpdate
 	public void preUpdate() {

@@ -20,7 +20,10 @@ public interface TimesheetRepository extends JpaRepository<Timesheet, Long> {
     int updateTimesheetStatus(@Param("timesheetId") Integer timesheetId,
                               @Param("statusId") Integer statusId,
                               @Param("approvedBy") Integer approvedBy);
-
+    
+    Boolean existsByResourceId_ResourceIdAndWeekStartDateAndWeekEndDate(
+            Integer resourceId, LocalDate weekStartDate, LocalDate weekEndDate
+        );
 
 }
 
