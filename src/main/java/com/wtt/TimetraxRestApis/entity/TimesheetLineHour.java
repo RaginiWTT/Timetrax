@@ -42,10 +42,10 @@ public class TimesheetLineHour {
     @Column(name = "ModifiedDateTime")
     private LocalDateTime modifiedDateTime;
 
-//    @PrePersist
-//    public void prePersist() {
-//        this.createdDateTime = LocalDateTime.now();
-//    }
+    @PrePersist
+    public void prePersist() {
+        this.createdDateTime = LocalDateTime.now();
+    }
     
     
     

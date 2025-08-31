@@ -34,6 +34,7 @@ public class TimesheetServiceImpl implements TimesheetService{
 
 	@Override
 	    public Timesheet saveTimesheet(Timesheet timesheet) {
+		System.out.println("Inside saveTimesheet method of TimesheetServiceImpl "+timesheet.getWeekEndDate());
 	        for (TimesheetLine line : timesheet.getTimesheetLines()) {
 	            line.setTimesheet(timesheet);
 	            for (TimesheetLineHour hour : line.getHours()) {
@@ -117,6 +118,18 @@ public class TimesheetServiceImpl implements TimesheetService{
 	    projectTaskRepository.updateActiveFlagForTasks(timesheetId, activeFlag);
 
 	    return new TimesheetApprovalResponseDTO(timesheetId, "Timesheet approved successfully", true);
+	}
+
+	@Override
+	public Boolean checkExistsByResourceIdAndWeekStartAndWeekEndDate(Integer resourceId, LocalDate weekStartDate,
+			LocalDate weekEndDate) {
+		Boolean exists = timesheetRepository.existsByResourceId_ResourceIdAndWeekStartDateAndWeekEndDate(resourceId, weekStartDate, weekEndDate);
+		if (exists) {
+			return true;
+		} else {
+			return false;
+		}
+		//return ;
 	}
 
 	    	

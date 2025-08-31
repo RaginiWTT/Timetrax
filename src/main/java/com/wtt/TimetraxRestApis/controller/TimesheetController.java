@@ -74,8 +74,10 @@ public class TimesheetController {
 		Timesheet timesheet = new Timesheet();
 		timesheet.setResourceId(resource);
 		timesheet.setCreatedBy(dto.getCreatedBy());
-		timesheet.setCreatedDateTime(dto.getCreatedDateTime());
-		timesheet.setSubmittedBy(dto.getSubmittedBy());
+		timesheet.setWeekStartDate(dto.getWeekStartDate());
+		timesheet.setWeekEndDate(dto.getWeekEndDate());
+//		timesheet.setCreatedDateTime(dto.getCreatedDateTime());
+//		timesheet.setSubmittedBy(dto.getSubmittedBy());
 		timesheet.setStatusId(dto.getStatusId());
 		// Set other fields
 
@@ -92,9 +94,9 @@ public class TimesheetController {
 			// line.setProjectId(lineDTO.getProjectId());
 			line.setStatus(lineDTO.getStatus());
 			line.setCreatedBy(lineDTO.getCreatedBy());
-			line.setCreatedDateTime(lineDTO.getCreatedDateTime());
+//			line.setCreatedDateTime(lineDTO.getCreatedDateTime());
 			line.setModifiedBy(lineDTO.getModifiedBy());
-			line.setModifiedDateTime(lineDTO.getModifiedDateTime());
+//			line.setModifiedDateTime(lineDTO.getModifiedDateTime());
 			line.setTimesheet(timesheet); // Important to set back-reference
 
 			List<TimesheetLineHour> hours = new ArrayList<>();
@@ -105,7 +107,7 @@ public class TimesheetController {
 				hour.setWorkingHours_NotBillable(hourDTO.getWorkingHours_NotBillable());
 				hour.setNotes(hourDTO.getNotes());
 				hour.setCreatedBy(hourDTO.getCreatedBy());
-				hour.setCreatedDateTime(hourDTO.getCreatedDateTime());
+				//hour.setCreatedDateTime(hourDTO.getCreatedDateTime());
 				hour.setLine(line); // Back-reference
 
 				hours.add(hour);
@@ -146,6 +148,23 @@ public class TimesheetController {
 	                                                                      @RequestParam Integer approvedBy) {
 	    TimesheetApprovalResponseDTO response = timesheetService.approveTimesheet(timesheetId, statusId, approvedBy, 0);
 	    return ResponseEntity.ok(response);
+	}
+	
+	// check exists by resourceId and weekStartDate and weekEndDate
+	// api url: /api/timesheets/check-exists?resourceId=1&weekStartDate=2023-10-02&weekEndDate=2023-10-08
+	@GetMapping("/check-exists")
+	public ResponseEntity<Boolean> checkExistsByResourceIdAndWeekStartAndWeekEndDate(			
+		@RequestParam("resourceId") Integer resourceId){
+		System.out.println("resourceId........Current Date: " +resourceId+ " "+LocalDate.now());
+		LocalDate now = LocalDate.now();
+		LocalDate weekStartDate = now.with(java.time.DayOfWeek.MONDAY);
+		LocalDate weekEndDate = now.with(java.time.DayOfWeek.SUNDAY);
+		Boolean exists = timesheetService.checkExistsByResourceIdAndWeekStartAndWeekEndDate(resourceId, weekStartDate,
+				weekEndDate);
+		return ResponseEntity.ok(exists);
+		
+//		@RequestParam("resourceId") Integer resourceId, @RequestParam("weekStartDate") LocalDate weekStartDate,
+//		@RequestParam("weekEndDate") LocalDate weekEndDate) {
 	}
 
 

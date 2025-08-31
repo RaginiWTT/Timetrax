@@ -14,6 +14,8 @@ public interface TimesheetService {
 	List<TimesheetResponseDTO> getTimehseetByStartDateAndStatusId(LocalDate localDate, Integer statusId);
 	
 	TimesheetApprovalResponseDTO  approveTimesheet(Integer timesheetId, Integer statusId, Integer approvedBy, Integer active);
+	
+	Boolean checkExistsByResourceIdAndWeekStartAndWeekEndDate(Integer resourceId, LocalDate weekStartDate, LocalDate weekEndDate);
 
 
 	/**

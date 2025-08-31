@@ -6,6 +6,7 @@ import com.wtt.TimetraxRestApis.dto.TimesheetResponseLineDTO;
 
 public interface TimesheetLineService {
     List<TimesheetResponseLineDTO> getAllLinesByTimesheetId(Integer timesheetId);
+  //  Boolean checkExistsTimeshhetLineByTaskIdAndTimesheetId(Integer taskId, Integer timesheetId);
 
 
 }
