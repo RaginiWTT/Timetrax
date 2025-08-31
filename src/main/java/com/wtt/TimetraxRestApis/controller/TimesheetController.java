@@ -154,17 +154,24 @@ public class TimesheetController {
 	// api url: /api/timesheets/check-exists?resourceId=1&weekStartDate=2023-10-02&weekEndDate=2023-10-08
 	@GetMapping("/check-exists")
 	public ResponseEntity<Boolean> checkExistsByResourceIdAndWeekStartAndWeekEndDate(			
-		@RequestParam("resourceId") Integer resourceId){
+//		@RequestParam("resourceId") Integer resourceId){
+//		System.out.println("resourceId........Current Date: " +resourceId+ " "+LocalDate.now());
+//		LocalDate now = LocalDate.now();
+//		LocalDate weekStartDate = now.with(java.time.DayOfWeek.MONDAY);
+//		LocalDate weekEndDate = now.with(java.time.DayOfWeek.SUNDAY);
+//		Boolean exists = timesheetService.checkExistsByResourceIdAndWeekStartAndWeekEndDate(resourceId, weekStartDate,
+//				weekEndDate);
+//		return ResponseEntity.ok(exists);
+		
+		@RequestParam("resourceId") Integer resourceId, @RequestParam("weekStartDate") LocalDate weekStartDate,
+		@RequestParam("weekEndDate") LocalDate weekEndDate) {
 		System.out.println("resourceId........Current Date: " +resourceId+ " "+LocalDate.now());
 		LocalDate now = LocalDate.now();
-		LocalDate weekStartDate = now.with(java.time.DayOfWeek.MONDAY);
-		LocalDate weekEndDate = now.with(java.time.DayOfWeek.SUNDAY);
+//		LocalDate weekStartDate = now.with(java.time.DayOfWeek.MONDAY);
+//		LocalDate weekEndDate = now.with(java.time.DayOfWeek.SUNDAY);
 		Boolean exists = timesheetService.checkExistsByResourceIdAndWeekStartAndWeekEndDate(resourceId, weekStartDate,
 				weekEndDate);
 		return ResponseEntity.ok(exists);
-		
-//		@RequestParam("resourceId") Integer resourceId, @RequestParam("weekStartDate") LocalDate weekStartDate,
-//		@RequestParam("weekEndDate") LocalDate weekEndDate) {
 	}
 
 

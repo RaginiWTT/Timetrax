@@ -14,6 +14,9 @@ public class TimesheetDTO {
 	private Integer submittedBy;
 	private Integer statusId; // Assuming statusId is needed
 	
+	private LocalDate weekStartDate;
+    private LocalDate weekEndDate;
+	
     public LocalDate getWeekStartDate() {
 		return weekStartDate;
 	}
@@ -30,8 +33,7 @@ public class TimesheetDTO {
 		this.weekEndDate = weekEndDate;
 	}
 
-	private LocalDate weekStartDate;
-    private LocalDate weekEndDate;
+
     
 	private List<TimesheetLineDTO> lines = new ArrayList<TimesheetLineDTO>();
 	// Add other fields as needed
