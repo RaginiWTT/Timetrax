@@ -46,8 +46,38 @@ public class Timesheet {
     @Column(name = "StatusId", columnDefinition = "int default 1")
     private Integer statusId;
     
+//    @Column(name = "TotalHours")
+//    private Double hours;
+//    
+//    
+//
+//
+//
+//
+//	public Double getHours() {
+//		return hours;
+//	}
+//
+//
+//
+//
+//	public void setHours(Double hours) {
+//		this.hours = hours;
+//	}
 
 
+
+
+	public List<TimesheetLine> getLines() {
+		return lines;
+	}
+
+
+
+
+	public void setLines(List<TimesheetLine> lines) {
+		this.lines = lines;
+	}
 
 
 	@Column(precision = 18, scale = 2,	 nullable = false, name = "TotalHours")

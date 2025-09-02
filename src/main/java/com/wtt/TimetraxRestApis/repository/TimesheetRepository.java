@@ -24,6 +24,15 @@ public interface TimesheetRepository extends JpaRepository<Timesheet, Long> {
     Boolean existsByResourceId_ResourceIdAndWeekStartDateAndWeekEndDate(
             Integer resourceId, LocalDate weekStartDate, LocalDate weekEndDate
         );
+    
+    
+		List<Timesheet> findByResourceId_ResourceIdAndStatusId(Integer resourceId, Integer statusId);
+		
+		// find all timesheets by resourceId
+		List<Timesheet> findByResourceId_ResourceId(Integer resourceId);
+		
+		// find timesheet by timesheetId
+		Timesheet findByTimesheetId(Integer timesheetId);
 
 }
 

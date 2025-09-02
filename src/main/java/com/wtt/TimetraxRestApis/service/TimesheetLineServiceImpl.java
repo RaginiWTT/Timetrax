@@ -41,13 +41,21 @@ public class TimesheetLineServiceImpl implements TimesheetLineService {
             dto.setTaskName(line.getTask().getTaskName());
             dto.setProjectId(line.getProject().getProjectId());
             dto.setProjectName(line.getProject().getProjectName());
+            
+            dto.setWeekStartDate(line.getTimesheet().getWeekStartDate());
+            dto.setWeekEndDate(line.getTimesheet().getWeekEndDate());
+            dto.setTotalHours(line.getTimesheet().getTotalHours());
+            dto.setStatus(line.getStatus());
+            
+            
+            
 
 
-            List<TimesheetLineHourResponseDTO> hourDTOs = line.getHours().stream()
-                .map(hour -> modelMapper.map(hour, TimesheetLineHourResponseDTO.class))
-                .collect(Collectors.toList());
-
-            dto.setHours(hourDTOs);
+//            List<TimesheetLineHourResponseDTO> hourDTOs = line.getHours().stream()
+//                .map(hour -> modelMapper.map(hour, TimesheetLineHourResponseDTO.class))
+//                .collect(Collectors.toList());
+//
+//            dto.setHours(hourDTOs);
             return dto;
         }).collect(Collectors.toList());
     	

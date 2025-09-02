@@ -19,6 +19,7 @@ import com.wtt.TimetraxRestApis.dto.TimesheetApprovalResponseDTO;
 import com.wtt.TimetraxRestApis.dto.TimesheetDTO;
 import com.wtt.TimetraxRestApis.dto.TimesheetHourDTO;
 import com.wtt.TimetraxRestApis.dto.TimesheetLineDTO;
+import com.wtt.TimetraxRestApis.dto.TimesheetReportDTO;
 import com.wtt.TimetraxRestApis.dto.TimesheetResponseDTO;
 import com.wtt.TimetraxRestApis.entity.Resource;
 import com.wtt.TimetraxRestApis.entity.Timesheet;
@@ -174,5 +175,39 @@ public class TimesheetController {
 		return ResponseEntity.ok(exists);
 	}
 
-
+    
+	// get timesheet by resourceId and statusId
+	@GetMapping("/by-resource/{resourceId}/status/{statusId}")
+	public ResponseEntity<?> getTimesheetByResourceIdAndStatusId(@PathVariable Integer resourceId,
+			@PathVariable Integer statusId) {
+		List<TimesheetReportDTO> dto = timesheetService.getTimesheetByResourceIdAndStatusId(resourceId, statusId);
+		if (dto != null) {
+			return ResponseEntity.ok(dto);
+		} else {
+			return ResponseEntity.status(404).body("No timesheet found for the given resource and status.");
+		}
+	}
+	
+	// get timesheet by resourceId
+	@GetMapping("/by-resource/{resourceId}")
+	public ResponseEntity<?> getTimesheetByResourceId(@PathVariable Integer resourceId) {
+		List<TimesheetReportDTO> dto = timesheetService.getTimesheetByResourceId(resourceId);
+		if (dto != null) {
+			return ResponseEntity.ok(dto);
+		} else {
+			return ResponseEntity.status(404).body("No timesheet found for the given resource.");
+		}
+	}
+	
+	// find timesheet by timesheetId
+	@GetMapping("/{timesheetId}")
+	public ResponseEntity<?> findByTimesheetId(@PathVariable Integer timesheetId) {
+		TimesheetDTO timesheet = timesheetService.findByTimesheetId(timesheetId);
+		if (timesheet != null) {
+			return ResponseEntity.ok(timesheet);
+		} else {
+			return ResponseEntity.status(404).body("No timesheet found for the given timesheetId.");
+		}
+	}
+	
 }

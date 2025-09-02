@@ -5,6 +5,8 @@ import java.time.LocalDateTime;
 import java.util.List;
 
 import com.wtt.TimetraxRestApis.dto.TimesheetApprovalResponseDTO;
+import com.wtt.TimetraxRestApis.dto.TimesheetDTO;
+import com.wtt.TimetraxRestApis.dto.TimesheetReportDTO;
 import com.wtt.TimetraxRestApis.dto.TimesheetResponseDTO;
 import com.wtt.TimetraxRestApis.entity.Timesheet;
 
@@ -24,5 +26,12 @@ public interface TimesheetService {
 	 * @param id the ID of the Timesheet
 	 * @return the Timesheet with the specified ID
 	 */
+	
+	List<TimesheetReportDTO> getTimesheetByResourceIdAndStatusId(Integer resourceId, Integer statusId);
+	
+	List<TimesheetReportDTO> getTimesheetByResourceId(Integer resourceId);
+	
+	// find timesheet by timesheetId
+	TimesheetDTO findByTimesheetId(Integer timesheetId);
 
 }

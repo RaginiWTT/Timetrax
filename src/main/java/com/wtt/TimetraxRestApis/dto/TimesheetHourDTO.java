@@ -11,13 +11,22 @@ public class TimesheetHourDTO {
 	private String notes;
 	private Integer createdBy;
 	private LocalDateTime createdDateTime;
+	private Integer hourId;
+	
+	public Integer getHourId() {
+		return hourId;
+	}
+
+	public void setHourId(Integer hourId) {
+		this.hourId = hourId;
+	}
 
 	public TimesheetHourDTO() {
 
 	}
 
 	public TimesheetHourDTO(LocalDate weekDate, BigDecimal workingHours_Billable, BigDecimal workingHours_NotBillable,
-			String notes, Integer createdBy, LocalDateTime createdDateTime) {
+			String notes, Integer createdBy, LocalDateTime createdDateTime, Integer hourId) {
 		super();
 		this.weekDate = weekDate;
 		this.workingHours_Billable = workingHours_Billable;
@@ -25,6 +34,7 @@ public class TimesheetHourDTO {
 		this.notes = notes;
 		this.createdBy = createdBy;
 		this.createdDateTime = createdDateTime;
+		this.hourId = hourId;
 	}
 
 	public LocalDate getWeekDate() {

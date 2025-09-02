@@ -1,11 +1,11 @@
 package com.wtt.TimetraxRestApis.dto;
 
+import java.math.BigDecimal;
 import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.List;
 
-import jakarta.persistence.Column;
 
 public class TimesheetDTO {
 	private Integer resourceId;
@@ -16,8 +16,29 @@ public class TimesheetDTO {
 	
 	private LocalDate weekStartDate;
     private LocalDate weekEndDate;
+    
+    private Integer timesheetId;
+    private BigDecimal totalHours;
+    
+    
 	
-    public LocalDate getWeekStartDate() {
+    public Integer getTimesheetId() {
+		return timesheetId;
+	}
+
+	public void setTimesheetId(Integer timesheetId) {
+		this.timesheetId = timesheetId;
+	}
+
+	public BigDecimal getTotalHours() {
+		return totalHours;
+	}
+
+	public void setTotalHours(BigDecimal totalHours) {
+		this.totalHours = totalHours;
+	}
+
+	public LocalDate getWeekStartDate() {
 		return weekStartDate;
 	}
 
@@ -43,7 +64,7 @@ public class TimesheetDTO {
 	}
 
 	public TimesheetDTO(Integer resourceId, Integer createdBy, LocalDateTime createdDateTime, Integer submittedBy,Integer statusId,LocalDate weekStartDate,LocalDate weekEndDate,
-			List<TimesheetLineDTO> lines) {
+			Integer timesheetId,BigDecimal totalHours ,List<TimesheetLineDTO> lines) {
 		super();
 		this.resourceId = resourceId;
 		this.createdBy = createdBy;
@@ -52,6 +73,8 @@ public class TimesheetDTO {
 		this.statusId = statusId; // Initialize statusId
 		this.weekStartDate = weekStartDate;
 		this.weekEndDate= weekEndDate;
+		this.timesheetId = timesheetId;
+		this.totalHours = totalHours;
 		this.lines = lines;
 	}
 
