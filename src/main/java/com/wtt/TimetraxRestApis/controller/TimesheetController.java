@@ -28,6 +28,8 @@ import com.wtt.TimetraxRestApis.entity.TimesheetLineHour;
 import com.wtt.TimetraxRestApis.repository.ProjectRepo;
 import com.wtt.TimetraxRestApis.repository.ProjectTaskRepository;
 import com.wtt.TimetraxRestApis.repository.ResourceRepo;
+import com.wtt.TimetraxRestApis.repository.TimesheetLineHourRepository;
+import com.wtt.TimetraxRestApis.repository.TimesheetLineRepository;
 import com.wtt.TimetraxRestApis.repository.TimesheetRepository;
 import com.wtt.TimetraxRestApis.service.TimesheetService;
 
@@ -49,6 +51,12 @@ public class TimesheetController {
 
 	@Autowired
 	ProjectRepo projectRepository;
+	
+	@Autowired
+	TimesheetLineRepository timesheetLineRepository;
+	
+	@Autowired
+	TimesheetLineHourRepository timesheetLineHourRepository;
 
 //    @PostMapping("/submit")
 //    public ResponseEntity<Timesheet> submitTimesheet(@RequestBody Timesheet timesheet) {
@@ -66,6 +74,12 @@ public class TimesheetController {
 
 	@PostMapping("/submit")
 	public ResponseEntity<String> saveTimesheet(@RequestBody TimesheetDTO dto) {
+		 
+		Timesheet existTimesheet = timesheetRepository.findByResourceId_ResourceIdAndWeekStartDateAndWeekEndDate(
+				dto.getResourceId(), dto.getWeekStartDate(), dto.getWeekEndDate());
+		
+		   if (existTimesheet == null) {
+		
 		Resource resource = repo.findById(dto.getResourceId())
 				.orElseThrow(() -> new RuntimeException("Resource not found"));
 
@@ -119,9 +133,172 @@ public class TimesheetController {
 
 		timesheet.setTimesheetLines(lines);
 		timesheetRepository.save(timesheet);
+		return ResponseEntity.ok("Timesheet saved successfully");
+		
+	} else {
+//		List<TimesheetLineDTO> lineDTOs = dto.getLines();
+//		for(TimesheetLineDTO lineDTO : lineDTOs) {
+//            TimesheetLine existingLine = timesheetLineRepository.findByTimesheet_TimesheetIdAndProject_ProjectIdAndTask_TaskId(
+//                    existTimesheet.getTimesheetId(), lineDTO.getProjectId(), lineDTO.getTaskId());
+//            if(existingLine != null) {
+//                // Update existing line
+////                existingLine.setStatus(lineDTO.getStatus());
+////                existingLine.setModifiedBy(lineDTO.getModifiedBy());
+//                // Update hours
+//                List<TimesheetHourDTO> hourDTOs = lineDTO.getHours();
+//                for(TimesheetHourDTO hourDTO : hourDTOs) {
+//                    // Assuming weekDate is unique for each hour entry in a line
+//                    TimesheetLineHour existingHour = existingLine.getHours().stream()
+//                            .filter(h -> h.getWeekDate().equals(hourDTO.getWeekDate()))
+//                            .findFirst()
+//                            .orElse(null);
+//                    if(existingHour != null) {
+//                        existingHour.setWorkingHours_Billable(hourDTO.getWorkingHours_Billable());
+//                        existingHour.setWorkingHours_NotBillable(hourDTO.getWorkingHours_NotBillable());
+//                        existingHour.setNotes(hourDTO.getNotes());
+//                        existingHour.setModifiedBy(hourDTO.getCreatedBy());
+//                    } else {
+//                        // Add new hour entry
+//                        TimesheetLineHour newHour = new TimesheetLineHour();
+//                        newHour.setWeekDate(hourDTO.getWeekDate());
+//                        newHour.setWorkingHours_Billable(hourDTO.getWorkingHours_Billable());
+//                        newHour.setWorkingHours_NotBillable(hourDTO.getWorkingHours_NotBillable());
+//                        newHour.setNotes(hourDTO.getNotes());
+//                        newHour.setCreatedBy(hourDTO.getCreatedBy());
+//                        newHour.setLine(existingLine);
+//                        existingLine.getHours().add(newHour);
+//                    }
+//                }
+//                timesheetLineRepository.save(existingLine);
+//            } else {
+//                // Add new line
+//                TimesheetLine newLine = new TimesheetLine();
+//                newLine.setProject(projectRepository.findById(lineDTO.getProjectId())
+//                        .orElseThrow(() -> new RuntimeException("Project Id not found")));
+//                newLine.setTask(taskRepository.findById(lineDTO.getTaskId())
+//                        .orElseThrow(() -> new RuntimeException("Task Id not found")));
+//                newLine.setStatus(lineDTO.getStatus());
+//                newLine.setCreatedBy(lineDTO.getCreatedBy());
+//                
+//                newLine.setTimesheet(existTimesheet);
+//                List<TimesheetLineHour> hours = new ArrayList<>();
+//                for(TimesheetHourDTO hourDTO : lineDTO.getHours()) {
+//                    TimesheetLineHour hour = new TimesheetLineHour();
+//                    hour.setWeekDate(hourDTO.getWeekDate());
+//                    hour.setWorkingHours_Billable(hourDTO.getWorkingHours_Billable());
+//                    hour.setWorkingHours_NotBillable(hourDTO.getWorkingHours_NotBillable());
+//                    hour.setNotes(hourDTO.getNotes());
+//                    hour.setCreatedBy(hourDTO.getCreatedBy());
+//                    hour.setLine(newLine);
+//                    hours.add(hour);
+//                }
+//                newLine.setHours(hours);
+//                timesheetLineRepository.save(newLine);
+//            }
+//				
+//			return ResponseEntity.ok("Timesheet updated successfully");
+//		}
+		List<TimesheetLineDTO> lineDTOs = dto.getLines();
+		
+		for(TimesheetLineDTO line : lineDTOs)
+		{ 
+			TimesheetLine existingLine = timesheetLineRepository.findByTimesheet_TimesheetIdAndProject_ProjectIdAndTask_TaskId(
+                    existTimesheet.getTimesheetId(), line.getProjectId(), line.getTaskId());
+            if(existingLine != null) {
+                // check if hours exist for the existing line
+            	                List<TimesheetHourDTO> hourDTOs = line.getHours();
+           	                                for(TimesheetHourDTO hourDTO : hourDTOs) {
+//            	                                	// Assuming weekDate is unique for each hour entry in a line
+//													TimesheetLineHour existingHour = existingLine.getHours().stream()
+//															.filter(h -> h.getWeekDate().equals(hourDTO.getWeekDate()))
+//															.findFirst().orElse(null);
+//													if (existingHour != null) {
+//														existingHour.setWorkingHours_Billable(
+//																hourDTO.getWorkingHours_Billable());
+//														existingHour.setWorkingHours_NotBillable(
+//																hourDTO.getWorkingHours_NotBillable());
+//														existingHour.setNotes(hourDTO.getNotes());
+//														existingHour.setModifiedBy(hourDTO.getCreatedBy());
+//													} else {
+//														// Add new hour entry
+//														TimesheetLineHour newHour = new TimesheetLineHour();
+//														newHour.setWeekDate(hourDTO.getWeekDate());
+//														newHour.setWorkingHours_Billable(
+//																hourDTO.getWorkingHours_Billable());
+//														newHour.setWorkingHours_NotBillable(
+//																hourDTO.getWorkingHours_NotBillable());
+//														newHour.setNotes(hourDTO.getNotes());
+//														newHour.setCreatedBy(hourDTO.getCreatedBy());
+//														newHour.setLine(existingLine);
+//														existingLine.getHours().add(newHour);
+//													}
+//
+           	                                	TimesheetLineHour existingHour = timesheetLineHourRepository
+           	                                			.findByLine_LineIdAndWeekDate(existingLine.getLineId(), hourDTO.getWeekDate());
+           	                                	
+           	                                	if(existingHour != null) {
+           	                                		// Update existing hour entry
+           	                                		existingHour.setWorkingHours_Billable(hourDTO.getWorkingHours_Billable());
+           	                                		existingHour.setWorkingHours_NotBillable(hourDTO.getWorkingHours_NotBillable());
+           	                                		existingHour.setNotes(hourDTO.getNotes());
+           	                                		existingHour.setModifiedBy(hourDTO.getCreatedBy());
+           	                                		
+           	                                		timesheetLineHourRepository.save(existingHour);
+           	                                	}
+           	                                		
+           	                                	else
+           	                                	{
+           	                                		// Add new hour entry
+           	                                		TimesheetLineHour newHour = new TimesheetLineHour();
+           	                                		newHour.setWeekDate(hourDTO.getWeekDate());
+           	                                		newHour.setWorkingHours_Billable(hourDTO.getWorkingHours_Billable());
+           	                                		newHour.setWorkingHours_NotBillable(hourDTO.getWorkingHours_NotBillable());
+           	                                		newHour.setNotes(hourDTO.getNotes());
+           	                                		newHour.setCreatedBy(hourDTO.getCreatedBy());
+           	                                		newHour.setLine(existingLine);
+           	                                		
+           	                                		timesheetLineHourRepository.save(newHour);
+           	                                	}
+            }
+            }
+		
+            else {
+				// Add new line
+				TimesheetLine newLine = new TimesheetLine();
+				newLine.setProject(projectRepository.findById(line.getProjectId())
+						.orElseThrow(() -> new RuntimeException("Project Id not found")));
+				newLine.setTask(taskRepository.findById(line.getTaskId())
+						.orElseThrow(() -> new RuntimeException("Task Id not found")));
+				newLine.setStatus(line.getStatus());
+				newLine.setCreatedBy(line.getCreatedBy());
+
+				newLine.setTimesheet(existTimesheet);
+				List<TimesheetLineHour> hours = new ArrayList<>();
+				for (TimesheetHourDTO hourDTO : line.getHours()) {
+					TimesheetLineHour hour = new TimesheetLineHour();
+					hour.setWeekDate(hourDTO.getWeekDate());
+					hour.setWorkingHours_Billable(hourDTO.getWorkingHours_Billable());
+					hour.setWorkingHours_NotBillable(hourDTO.getWorkingHours_NotBillable());
+					hour.setNotes(hourDTO.getNotes());
+					hour.setCreatedBy(hourDTO.getCreatedBy());
+					hour.setLine(newLine);
+					hours.add(hour);
+				}
+				newLine.setHours(hours);
+				timesheetLineRepository.save(newLine);
+            }
+			
+		}
+	
 
 		return ResponseEntity.ok("Timesheet saved successfully");
 	}
+		//return null;
+	}
+	
+	
+	
+	
 
 	@GetMapping("/getTimesheetByStartDateAndStatusId")
 	public ResponseEntity<List<TimesheetResponseDTO>> getTimesheetByStartDateAndStatusId(
