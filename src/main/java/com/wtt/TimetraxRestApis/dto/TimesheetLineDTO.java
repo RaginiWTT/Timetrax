@@ -6,12 +6,24 @@ import java.util.List;
 
 public class TimesheetLineDTO {
 	private Integer projectId;
+	private String projectName;
 	private Integer taskId;
+	private String taskName;
 	private String status;
 	private Integer createdBy;
 	private LocalDateTime createdDateTime;
 	private Integer modifiedBy;
 	private LocalDateTime modifiedDateTime;
+	private Integer lineId;
+	
+	public Integer getLineId() {
+		return lineId;
+	}
+
+	public void setLineId(Integer lineId) {
+		this.lineId = lineId;
+	}
+	
 	private List<TimesheetHourDTO> hours = new ArrayList<TimesheetHourDTO>();
 
 	public TimesheetLineDTO() {
@@ -20,7 +32,7 @@ public class TimesheetLineDTO {
 	}
 
 	public TimesheetLineDTO(Integer projectId, Integer taskId, String status, Integer createdBy,
-			LocalDateTime createdDateTime, Integer modifiedBy, LocalDateTime modifiedDateTime,
+			LocalDateTime createdDateTime, Integer modifiedBy, LocalDateTime modifiedDateTime, Integer lineId,
 			List<TimesheetHourDTO> hours) {
 		super();
 		this.projectId = projectId;
@@ -30,7 +42,24 @@ public class TimesheetLineDTO {
 		this.createdDateTime = createdDateTime;
 		this.modifiedBy = modifiedBy;
 		this.modifiedDateTime = modifiedDateTime;
+		this.lineId = lineId;
 		this.hours = hours;
+	}
+	
+	public String getProjectName() {
+		return projectName;
+	}
+
+	public void setProjectName(String projectName) {
+		this.projectName = projectName;
+	}
+
+	public String getTaskName() {
+		return taskName;
+	}
+
+	public void setTaskName(String taskName) {
+		this.taskName = taskName;
 	}
 
 	public Integer getProjectId() {

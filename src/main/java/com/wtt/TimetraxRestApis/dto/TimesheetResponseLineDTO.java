@@ -1,6 +1,10 @@
 package com.wtt.TimetraxRestApis.dto;
 
 import lombok.*;
+
+import java.math.BigDecimal;
+import java.time.LocalDate;
+import java.time.LocalDateTime;
 import java.util.List;
 
 @Getter @Setter
@@ -13,7 +17,30 @@ public class TimesheetResponseLineDTO {
     private String taskName; // <-- additional field from Task
     private Integer projectId;
     private String projectName; // <-- additional field from Project
-    private List<TimesheetLineHourResponseDTO> hours;
+    
+    private String status;
+    private BigDecimal totalHours;
+    private LocalDate weekStartDate;
+    private LocalDate weekEndDate;
+    
+    
+    public LocalDate getWeekStartDate() {
+		return weekStartDate;
+	}
+
+	public void setWeekStartDate(LocalDate weekStartDate) {
+		this.weekStartDate = weekStartDate;
+	}
+
+	public LocalDate getWeekEndDate() {
+		return weekEndDate;
+	}
+
+	public void setWeekEndDate(LocalDate weekEndDate) {
+		this.weekEndDate = weekEndDate;
+	}
+
+	//private List<TimesheetLineHourResponseDTO> hours;
     
     // No Args Constructor
         public TimesheetResponseLineDTO() {	
@@ -22,7 +49,8 @@ public class TimesheetResponseLineDTO {
     
     // All Args Constructor
 	public TimesheetResponseLineDTO(Integer lineId, Integer timesheetId, Integer taskId, String taskName,
-			Integer projectId, String projectName, List<TimesheetLineHourResponseDTO> hours) {
+			Integer projectId, String projectName, List<TimesheetLineHourResponseDTO> hours, String status,
+			BigDecimal totalHours, LocalDate weekStartDate, LocalDate weekEndDate) {
 		super();
 		this.lineId = lineId;
 		this.timesheetId = timesheetId;
@@ -30,7 +58,11 @@ public class TimesheetResponseLineDTO {
 		this.taskName = taskName;
 		this.projectId = projectId;
 		this.projectName = projectName;
-		this.hours = hours;
+//		this.hours = hours;
+		this.status = status;
+		this.totalHours = totalHours;
+		this.weekStartDate = weekStartDate;
+		this.weekEndDate = weekEndDate;
 	}
 
 	public Integer getLineId() {
@@ -73,14 +105,14 @@ public class TimesheetResponseLineDTO {
 		this.projectId = projectId;
 	}
 
-	public List<TimesheetLineHourResponseDTO> getHours() {
-		return hours;
-	}
-
-	public void setHours(List<TimesheetLineHourResponseDTO> hours) {
-		this.hours = hours;
-	}
-	
+//	public List<TimesheetLineHourResponseDTO> getHours() {
+//		return hours;
+//	}
+//
+//	public void setHours(List<TimesheetLineHourResponseDTO> hours) {
+//		this.hours = hours;
+//	}
+//	
 	public String getProjectName() {
 		return projectName;
 	}
@@ -89,6 +121,21 @@ public class TimesheetResponseLineDTO {
 		this.projectName = projectName;
 	}
 	
+	public String getStatus() {
+		return status;
+	}
+	
+	public void setStatus(String status) {
+		this.status = status;
+	}
+
+	public BigDecimal getTotalHours() {
+		return totalHours;
+	}
+
+	public void setTotalHours(BigDecimal totalHours) {
+		this.totalHours = totalHours;
+	}
 }
 
 
